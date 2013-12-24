@@ -1,0 +1,1466 @@
+==================
+WARNING: DATA RACE
+Write by goroutine 8:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.QueryExtensionCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:13305 +0x3e
+  github.com/BurntSushi/xgb/xinerama.Init()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xinerama/xinerama.go:17 +0x6e
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:256 +0xd78
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 8 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 8:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.GetKeyboardMappingCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:13546 +0x3e
+  github.com/BurntSushi/xgbutil/keybind.MapsGet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/keybind/keybind.go:106 +0xa5
+  github.com/BurntSushi/xgbutil/keybind.Initialize()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/keybind/keybind.go:33 +0x68
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:107 +0x88
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 8 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 8:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.GetModifierMappingCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:14775 +0x3e
+  github.com/BurntSushi/xgbutil/keybind.MapsGet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/keybind/keybind.go:107 +0xfb
+  github.com/BurntSushi/xgbutil/keybind.Initialize()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/keybind/keybind.go:33 +0x68
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:107 +0x88
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 8 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 8:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.InternAtomCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7431 +0x3e
+  github.com/BurntSushi/xgbutil/xprop.Atom()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/atom.go:45 +0xfd
+  github.com/BurntSushi/xgbutil/xprop.Atm()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/atom.go:24 +0x50
+  github.com/BurntSushi/xgbutil/xprop.GetProperty()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:16 +0x61
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsGet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:242 +0x55
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:22 +0xd6
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 8 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 8:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.GetPropertyCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7735 +0x3e
+  github.com/BurntSushi/xgbutil/xprop.GetProperty()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:22 +0x108
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsGet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:242 +0x55
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:22 +0xd6
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 8 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 8:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.InternAtomCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7431 +0x3e
+  github.com/BurntSushi/xgbutil/xprop.Atom()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/atom.go:45 +0xfd
+  github.com/BurntSushi/xgbutil/xprop.StrToAtoms()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:96 +0x110
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsSet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:250 +0x5a
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:33 +0x316
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 8 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 8:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.InternAtomCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7431 +0x3e
+  github.com/BurntSushi/xgbutil/xprop.Atom()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/atom.go:45 +0xfd
+  github.com/BurntSushi/xgbutil/xprop.Atm()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/atom.go:24 +0x50
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:46 +0xa4
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp32()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:66 +0x2c2
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsSet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:254 +0xe3
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:33 +0x316
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 8 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 8:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.ChangePropertyCookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7607 +0x3e
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:53 +0x17b
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp32()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:66 +0x2c2
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsSet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:254 +0xe3
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:33 +0x316
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 8 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 8:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb.(*Conn).Sync()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/sync.go:11 +0x14b
+  github.com/BurntSushi/xgb.Cookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/cookie.go:160 +0x270
+  github.com/BurntSushi/xgb/xproto.ChangePropertyCookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7607 +0x5e
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:53 +0x17b
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp32()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:66 +0x2c2
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsSet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:254 +0xe3
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:33 +0x316
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 8 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 8:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.ChangeWindowAttributesCookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:6512 +0x3e
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).Listen()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/xwindow.go:144 +0x199
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:46 +0x303
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 8 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 8:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb.(*Conn).Sync()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/sync.go:11 +0x14b
+  github.com/BurntSushi/xgb.Cookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/cookie.go:160 +0x270
+  github.com/BurntSushi/xgb/xproto.ChangeWindowAttributesCookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:6512 +0x5e
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).Listen()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/xwindow.go:144 +0x199
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:46 +0x303
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 8 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestInit()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:15 +0x4a
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+libEGL warning: failed to create a pipe screen for i965
+==================
+WARNING: DATA RACE
+Write by goroutine 15:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.QueryExtensionCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:13305 +0x3e
+  github.com/BurntSushi/xgb/xinerama.Init()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xinerama/xinerama.go:17 +0x6e
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:256 +0xd78
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 15 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 15:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.GetKeyboardMappingCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:13546 +0x3e
+  github.com/BurntSushi/xgbutil/keybind.MapsGet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/keybind/keybind.go:106 +0xa5
+  github.com/BurntSushi/xgbutil/keybind.Initialize()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/keybind/keybind.go:33 +0x68
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:107 +0x88
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 15 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 15:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.GetModifierMappingCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:14775 +0x3e
+  github.com/BurntSushi/xgbutil/keybind.MapsGet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/keybind/keybind.go:107 +0xfb
+  github.com/BurntSushi/xgbutil/keybind.Initialize()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/keybind/keybind.go:33 +0x68
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:107 +0x88
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 15 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 15:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.InternAtomCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7431 +0x3e
+  github.com/BurntSushi/xgbutil/xprop.Atom()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/atom.go:45 +0xfd
+  github.com/BurntSushi/xgbutil/xprop.Atm()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/atom.go:24 +0x50
+  github.com/BurntSushi/xgbutil/xprop.GetProperty()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:16 +0x61
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsGet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:242 +0x55
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:22 +0xd6
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 15 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 15:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.GetPropertyCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7735 +0x3e
+  github.com/BurntSushi/xgbutil/xprop.GetProperty()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:22 +0x108
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsGet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:242 +0x55
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:22 +0xd6
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 15 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 15:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.InternAtomCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7431 +0x3e
+  github.com/BurntSushi/xgbutil/xprop.Atom()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/atom.go:45 +0xfd
+  github.com/BurntSushi/xgbutil/xprop.StrToAtoms()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:96 +0x110
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsSet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:250 +0x5a
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:33 +0x316
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 15 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 15:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.InternAtomCookie.Reply()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7431 +0x3e
+  github.com/BurntSushi/xgbutil/xprop.Atom()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/atom.go:45 +0xfd
+  github.com/BurntSushi/xgbutil/xprop.Atm()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/atom.go:24 +0x50
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:46 +0xa4
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp32()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:66 +0x2c2
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsSet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:254 +0xe3
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:33 +0x316
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 15 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 15:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.ChangePropertyCookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7607 +0x3e
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:53 +0x17b
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp32()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:66 +0x2c2
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsSet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:254 +0xe3
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:33 +0x316
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 15 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 15:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb.(*Conn).Sync()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/sync.go:11 +0x14b
+  github.com/BurntSushi/xgb.Cookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/cookie.go:160 +0x270
+  github.com/BurntSushi/xgb/xproto.ChangePropertyCookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:7607 +0x5e
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:53 +0x17b
+  github.com/BurntSushi/xgbutil/xprop.ChangeProp32()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xprop/xprop.go:66 +0x2c2
+  github.com/BurntSushi/xgbutil/icccm.WmProtocolsSet()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/icccm/icccm.go:254 +0xe3
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).WMGracefulClose()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/icccm.go:33 +0x316
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:38 +0x25a
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 15 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 15:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb/xproto.ChangeWindowAttributesCookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:6512 +0x3e
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).Listen()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/xwindow.go:144 +0x199
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:46 +0x303
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 15 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Write by goroutine 15:
+  github.com/BurntSushi/xgb.(*Conn).sendRequests()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:311 +0x2ea
+
+Previous read by goroutine 5:
+  github.com/BurntSushi/xgb.(*Conn).Sync()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/sync.go:11 +0x14b
+  github.com/BurntSushi/xgb.Cookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/cookie.go:160 +0x270
+  github.com/BurntSushi/xgb/xproto.ChangeWindowAttributesCookie.Check()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xproto/xproto.go:6512 +0x5e
+  github.com/BurntSushi/xgbutil/xwindow.(*Window).Listen()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xwindow/xwindow.go:144 +0x199
+  github.com/remogatto/gorgasm.newWindow()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:46 +0x303
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:109 +0xaa
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 15 (running) created at:
+  github.com/BurntSushi/xgb.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgb/xgb.go:106 +0x239
+  github.com/BurntSushi/xgbutil.NewConnDisplay()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:192 +0x52
+  github.com/BurntSushi/xgbutil.NewConn()
+      /home/andrea/src/gopkg/src/github.com/BurntSushi/xgbutil/xgbutil.go:180 +0x41
+  github.com/remogatto/gorgasm.XorgInitialize()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/init.go:101 +0x2b
+  github.com/remogatto/gorgasm.(*testSuite).TestNativeWindowCreatedEvent()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:27 +0x67
+  runtime.call16()
+      /home/andrea/src/go/src/pkg/runtime/asm_amd64.s:338 +0x31
+  reflect.Value.Call()
+      /home/andrea/src/go/src/pkg/reflect/value.go:345 +0xaa
+  github.com/remogatto/prettytest.run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:316 +0xc46
+  github.com/remogatto/prettytest.Run()
+      /home/andrea/src/gopkg/src/github.com/remogatto/prettytest/prettytest.go:249 +0x88
+  github.com/remogatto/gorgasm.TestGorgasm()
+      /home/andrea/src/gopkg/src/github.com/remogatto/gorgasm/gorgasm_test.go:42 +0xd6
+  testing.tRunner()
+      /home/andrea/src/go/src/pkg/testing/testing.go:389 +0x10f
+
+Goroutine 5 (running) created at:
+  testing.RunTests()
+      /home/andrea/src/go/src/pkg/testing/testing.go:469 +0xb3c
+  testing.Main()
+      /home/andrea/src/go/src/pkg/testing/testing.go:401 +0xa2
+  main.main()
+      github.com/remogatto/gorgasm/_test/_testmain.go:47 +0xdc
+==================
+Found 22 data race(s)
