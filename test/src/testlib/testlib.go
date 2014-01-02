@@ -20,11 +20,13 @@ const (
 
 type TestSuite struct {
 	prettytest.Suite
+	rlControl        *renderLoopControl
+	creationSequence []string
+	testDraw         chan bool
 }
 
 var (
 	Width, Height                   int = 320, 480
-	rlControl                       *renderLoopControl
 	verticesArrayBuffer             uint32
 	textureBuffer                   uint32
 	unifTexture, attrPos, attrTexIn uint32
@@ -64,7 +66,6 @@ type renderLoopControl struct {
 	pause          chan bool
 	resume         chan bool
 	window         chan gorgasm.Window
-	testDraw       chan bool
 }
 
 type renderState struct {
@@ -205,13 +206,12 @@ func newRenderLoopControl() *renderLoopControl {
 		make(chan bool),
 		make(chan bool),
 		make(chan gorgasm.Window),
-		make(chan bool),
 	}
 }
 
 // Run runs renderLoop. The loop renders a frame and swaps the buffer
 // at each tick received.
-func renderLoopFunc(control *renderLoopControl) loop.LoopFunc {
+func (t *TestSuite) renderLoopFunc(control *renderLoopControl) loop.LoopFunc {
 	return func(loop loop.Loop) error {
 
 		// renderState stores rendering state variables such
@@ -241,7 +241,7 @@ func renderLoopFunc(control *renderLoopControl) loop.LoopFunc {
 			case <-ticker.C:
 				renderState.draw()
 				renderState.window.SwapBuffers()
-				control.testDraw <- true
+				t.testDraw <- true
 
 			case <-control.resizeViewport:
 
@@ -262,7 +262,7 @@ func renderLoopFunc(control *renderLoopControl) loop.LoopFunc {
 
 // eventLoopFunc is listening for events originating from the
 // framwork.
-func eventLoopFunc(renderLoopControl *renderLoopControl) loop.LoopFunc {
+func (t *TestSuite) eventLoopFunc(renderLoopControl *renderLoopControl) loop.LoopFunc {
 	return func(loop loop.Loop) error {
 
 		for {
@@ -270,6 +270,12 @@ func eventLoopFunc(renderLoopControl *renderLoopControl) loop.LoopFunc {
 			// Receive events from the framework.
 			case untypedEvent := <-gorgasm.Events():
 				switch event := untypedEvent.(type) {
+
+				case gorgasm.CreateEvent:
+					t.creationSequence = append(t.creationSequence, "onCreate")
+
+				case gorgasm.StartEvent:
+					t.creationSequence = append(t.creationSequence, "onStart")
 
 				case gorgasm.NativeWindowCreatedEvent:
 					renderLoopControl.window <- event.Window
@@ -298,8 +304,7 @@ func eventLoopFunc(renderLoopControl *renderLoopControl) loop.LoopFunc {
 					renderLoopControl.pause <- true
 
 				case gorgasm.ResumeEvent:
-					gorgasm.Logf("Application was resumed. Reactivating rendering ticker.")
-					renderLoopControl.resume <- true
+					t.creationSequence = append(t.creationSequence, "onResume")
 
 				}
 			}
@@ -342,10 +347,10 @@ func (t *TestSuite) BeforeAll() {
 	gorgasm.Debug = true
 
 	// Create rendering loop control channels
-	rlControl = newRenderLoopControl()
+	t.rlControl = newRenderLoopControl()
 	// Start the rendering loop
 	loop.GoRecoverable(
-		renderLoopFunc(rlControl),
+		t.renderLoopFunc(t.rlControl),
 		func(rs loop.Recoverings) (loop.Recoverings, error) {
 			for _, r := range rs {
 				gorgasm.Logf("%s", r.Reason)
@@ -356,7 +361,7 @@ func (t *TestSuite) BeforeAll() {
 	)
 	// Start the event loop
 	loop.GoRecoverable(
-		eventLoopFunc(rlControl),
+		t.eventLoopFunc(t.rlControl),
 		func(rs loop.Recoverings) (loop.Recoverings, error) {
 			for _, r := range rs {
 				gorgasm.Logf("%s", r.Reason)
@@ -368,6 +373,9 @@ func (t *TestSuite) BeforeAll() {
 
 }
 
-func (t *TestSuite) TestDraw() {
-	t.True(<-rlControl.testDraw)
+func NewTestSuite() *TestSuite {
+	return &TestSuite{
+		rlControl: newRenderLoopControl(),
+		testDraw:  make(chan bool),
+	}
 }

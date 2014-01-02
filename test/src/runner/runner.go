@@ -33,5 +33,5 @@ func main() {
 
 	gorgasm.Init(window)
 
-	prettytest.Run(new(testing.T), new(testlib.TestSuite))
+	prettytest.Run(new(testing.T), testlib.NewTestSuite())
 }

@@ -7,7 +7,7 @@ package gorgasm
 // #include <android/native_activity.h>
 // #include <android/native_window.h>
 // #include <android/input.h>
-// #include "init_android.h"
+// #include "callback_android.h"
 //
 // #cgo LDFLAGS: -landroid
 import "C"
@@ -97,8 +97,16 @@ func onResume(act *C.ANativeActivity) {
 		handleCallbackError(act, recover())
 	}()
 	Debugf("Resuming...\n")
-	event <- ResumeEvent{}
+	event <- ResumeEvent{unsafe.Pointer(act)}
 	Debugf("Resumed...\n")
+}
+
+//export onStart
+func onStart(act *C.ANativeActivity) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	event <- StartEvent{unsafe.Pointer(act)}
 }
 
 //export onCreate
@@ -106,8 +114,6 @@ func onCreate(act *C.ANativeActivity, savedState unsafe.Pointer, savedStateSize 
 	defer func() {
 		handleCallbackError(act, recover())
 	}()
-	Debugf("onCreate...\n")
-
 	internalEvent = make(chan interface{})
 	looperCh := make(chan *C.ALooper)
 
@@ -129,7 +135,7 @@ func onCreate(act *C.ANativeActivity, savedState unsafe.Pointer, savedStateSize 
 	// states global map.
 	setState(act, &state{act, nil})
 
-	Debugf("onCreate done\n")
+	event <- CreateEvent{unsafe.Pointer(act), savedState, int(savedStateSize)}
 }
 
 //export onDestroy

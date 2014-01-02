@@ -8,6 +8,10 @@ import (
 	"unsafe"
 )
 
+const (
+	BUFFERED_EVENTS_NUM = 10
+)
+
 var (
 	// If Verbose is true Logf will print on the stdout.
 	Verbose bool
@@ -78,7 +82,7 @@ func Events() <-chan interface{} {
 }
 
 func init() {
-	event = make(chan interface{}, 1)
+	event = make(chan interface{}, BUFFERED_EVENTS_NUM)
 	request = make(chan interface{})
 	activity = make(chan unsafe.Pointer, 1)
 

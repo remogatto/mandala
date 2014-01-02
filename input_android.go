@@ -4,7 +4,6 @@ package gorgasm
 
 // #include <android/native_activity.h>
 // #include <android/input.h>
-// #include "init_android.h"
 import "C"
 
 import (

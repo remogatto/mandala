@@ -21,5 +21,9 @@ func main() {
 	gorgasm.Verbose = true
 	gorgasm.Debug = true
 
-	go prettytest.RunWithFormatter(t, testlib.NewTDDFormatter(), new(testlib.TestSuite))
+	go prettytest.RunWithFormatter(
+		t,
+		testlib.NewTDDFormatter(),
+		testlib.NewTestSuite(),
+	)
 }

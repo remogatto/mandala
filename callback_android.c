@@ -23,6 +23,7 @@ extern void onInputQueueDestroyed(ANativeActivity *activity, AInputQueue* queue)
 extern void onCreate(ANativeActivity *activity, void* savedState, size_t savedStateSize);
 extern void onDestroy(ANativeActivity *activity);
 extern void onResume(ANativeActivity *activity);
+extern void onStart(ANativeActivity *activity);
 extern void onPause(ANativeActivity *activity);
 extern void onConfigurationChanged(ANativeActivity *activity);
 extern void onWindowFocusChanged(ANativeActivity *activity, int focused);
@@ -36,6 +37,7 @@ void ANativeActivity_onCreate(ANativeActivity *activity, void* savedState, size_
 	activity->callbacks->onInputQueueDestroyed = onInputQueueDestroyed;
 	activity->callbacks->onDestroy = onDestroy;
 	activity->callbacks->onResume = onResume;
+	activity->callbacks->onStart = onStart;
 	activity->callbacks->onPause = onPause;
 	activity->callbacks->onConfigurationChanged = onConfigurationChanged;
 	activity->callbacks->onNativeWindowResized = onNativeWindowResized;

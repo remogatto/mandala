@@ -21,5 +21,9 @@ func Init(window *glfw.Window) {
 	// Set callbacks associated with window events
 	window.SetCloseCallback(exitCallback)
 
+	// Begin sending events related to the creation process
+	event <- CreateEvent{}
+	event <- StartEvent{}
+	event <- ResumeEvent{}
 	event <- NativeWindowCreatedEvent{Window: window}
 }

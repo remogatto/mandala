@@ -31,6 +31,10 @@ type ResumeEvent struct {
 	Activity unsafe.Pointer
 }
 
+type StartEvent struct {
+	Activity unsafe.Pointer
+}
+
 type CreateEvent struct {
 	Activity       unsafe.Pointer
 	SavedState     unsafe.Pointer

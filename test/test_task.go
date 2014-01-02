@@ -112,7 +112,7 @@ func TaskDeploy(t *tasking.T) {
 //    Clean all generated files and paths.
 //
 // OPTIONS
-//    --clean-backup
+//    --backup, -b
 //        clean all backup files (*~, #*)
 //    --verbose, -v
 //        run in verbose mode
@@ -137,8 +137,8 @@ func TaskClean(t *tasking.T) {
 		}
 	}
 
-	if t.Flags.Bool("clean-backup") {
-		err := t.Exec("find folder -name '*~' -print0 | xargs -0 rm -f")
+	if t.Flags.Bool("backup") {
+		err := t.Exec(`sh -c`, `"find ./ -name '*~' -print0 | xargs -0 rm -f"`)
 		if err != nil {
 			t.Error(err)
 		}
