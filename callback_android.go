@@ -1,0 +1,208 @@
+// +build android
+
+package gorgasm
+
+// #include <stdlib.h>
+// #include <jni.h>
+// #include <android/native_activity.h>
+// #include <android/native_window.h>
+// #include <android/input.h>
+// #include "init_android.h"
+//
+// #cgo LDFLAGS: -landroid
+import "C"
+
+import (
+	"fmt"
+	"git.tideland.biz/goas/loop"
+	"github.com/remogatto/egl/platform/android"
+	"unsafe"
+)
+
+var (
+	// Internal channel used by the framework to handle events
+	// like the creation/destruction of input queues.
+	internalEvent chan interface{}
+	looper        *C.ALooper
+)
+
+func handleCallbackError(act *C.ANativeActivity, err interface{}) {
+	if err == nil {
+		return
+	}
+	errStr := fmt.Sprintf("callback panic: %s stack: %s", err, Stacktrace())
+	errStrC := C.CString(errStr)
+	defer C.free(unsafe.Pointer(errStrC))
+	if C.throwException(act, errStrC) == 0 {
+		Fatalf("%v\n", errStr)
+	}
+}
+
+//export onWindowFocusChanged
+func onWindowFocusChanged(act *C.ANativeActivity, focusedC C.int) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	focused := int(focusedC) != 0
+	Debugf("onWindowFocusChanged %v...\n", focused)
+	event <- WindowFocusChangedEvent{Activity: unsafe.Pointer(act), HasFocus: focused}
+	Debugf("onWindowFocusChanged done\n")
+}
+
+//export onConfigurationChanged
+func onConfigurationChanged(act *C.ANativeActivity) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	event <- ConfigurationChangedEvent{}
+	Debugf("onConfigurationChanged\n")
+}
+
+//export onNativeWindowResized
+func onNativeWindowResized(act *C.ANativeActivity, win unsafe.Pointer) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	state := getState(act)
+	state.window.resize(win)
+	event <- NativeWindowResizedEvent{unsafe.Pointer(act), state.window}
+	Debugf("onNativeWindowResized\n")
+}
+
+//export onNativeWindowRedrawNeeded
+func onNativeWindowRedrawNeeded(act *C.ANativeActivity, win unsafe.Pointer) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	event <- NativeWindowRedrawNeededEvent{
+		unsafe.Pointer(act),
+		getState(act).window,
+	}
+	Debugf("onNativeRedrawNeeded\n")
+}
+
+//export onPause
+func onPause(act *C.ANativeActivity) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	Debugf("Pausing...\n")
+	event <- PauseEvent{}
+	Debugf("Paused...\n")
+}
+
+//export onResume
+func onResume(act *C.ANativeActivity) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	Debugf("Resuming...\n")
+	event <- ResumeEvent{}
+	Debugf("Resumed...\n")
+}
+
+//export onCreate
+func onCreate(act *C.ANativeActivity, savedState unsafe.Pointer, savedStateSize C.size_t) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	Debugf("onCreate...\n")
+
+	internalEvent = make(chan interface{})
+	looperCh := make(chan *C.ALooper)
+
+	loop.GoRecoverable(
+		androidEventLoopFunc(internalEvent, looperCh),
+		func(rs loop.Recoverings) (loop.Recoverings, error) {
+			for _, r := range rs {
+				Logf("%s", r.Reason)
+				Logf("%s", Stacktrace())
+			}
+			return rs, fmt.Errorf("Unrecoverable loop\n")
+		},
+	)
+
+	activity <- unsafe.Pointer(act)
+	looper = <-looperCh
+
+	// Create a new state for the current activity and store it in
+	// states global map.
+	setState(act, &state{act, nil})
+
+	Debugf("onCreate done\n")
+}
+
+//export onDestroy
+func onDestroy(act *C.ANativeActivity) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	Debugf("onDestroy...\n")
+	Debugf("onDestroy done\n")
+}
+
+//export onNativeWindowCreated
+func onNativeWindowCreated(act *C.ANativeActivity, win unsafe.Pointer) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	Debugf("onNativeWindowCreated...\n")
+
+	eglState := android.Initialize(
+		win,
+		android.DefaultConfigAttributes,
+		android.DefaultContextAttributes,
+	)
+
+	state := getState(act)
+	state.window = &window{win, eglState}
+
+	event <- NativeWindowCreatedEvent{
+		Activity: unsafe.Pointer(act),
+		Window:   state.window,
+	}
+
+	Debugf("onNativeWindowCreated done\n")
+}
+
+//export onNativeWindowDestroyed
+func onNativeWindowDestroyed(act *C.ANativeActivity, win unsafe.Pointer) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	Debugf("onWindowDestroy...\n")
+	// egl.DestroySurface(.Display, platform.Surface)
+	Debugf("onWindowDestroy done\n")
+}
+
+//export onInputQueueCreated
+func onInputQueueCreated(act *C.ANativeActivity, queue unsafe.Pointer) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	Debugf("onInputQueueCreated...\n")
+
+	internalEvent <- InputQueueCreatedEvent{
+		Activity:   unsafe.Pointer(act),
+		InputQueue: queue,
+	}
+
+	Debugf("onInputQueueCreated done\n")
+}
+
+//export onInputQueueDestroyed
+func onInputQueueDestroyed(act *C.ANativeActivity, queue unsafe.Pointer) {
+	defer func() {
+		handleCallbackError(act, recover())
+	}()
+	Debugf("onInputQueueDestroy...\n")
+
+	C.ALooper_wake(looper)
+
+	internalEvent <- InputQueueDestroyedEvent{
+		unsafe.Pointer(act),
+		queue,
+	}
+
+	Debugf("onInputQueueDestroy done\n")
+}

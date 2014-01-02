@@ -1,0 +1,3 @@
+# view AndroidManifest.xml #generated:9
+-keep class android.app.NativeActivity { <init>(...); }
+

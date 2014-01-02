@@ -1,13 +1,12 @@
 package gorgasm
 
 import (
-	"github.com/remogatto/egl/platform"
 	"unsafe"
 )
 
 type WindowFocusChangedEvent struct {
-	HasFocus bool
 	Activity unsafe.Pointer
+	HasFocus bool
 }
 
 type ConfigurationChangedEvent struct {
@@ -15,8 +14,13 @@ type ConfigurationChangedEvent struct {
 }
 
 type NativeWindowResizedEvent struct {
-	Activity      unsafe.Pointer
-	Width, Height int
+	Activity unsafe.Pointer
+	Window   Window
+}
+
+type NativeWindowRedrawNeededEvent struct {
+	Activity unsafe.Pointer
+	Window   Window
 }
 
 type PauseEvent struct {
@@ -38,9 +42,8 @@ type DestroyEvent struct {
 }
 
 type NativeWindowCreatedEvent struct {
-	EGLState platform.EGLState
 	Activity unsafe.Pointer
-	Window   unsafe.Pointer
+	Window   Window
 }
 
 type NativeWindowDestroyedEvent struct {
