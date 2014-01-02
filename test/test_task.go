@@ -26,12 +26,12 @@ var (
 	// Android path
 	AndroidPath = "android"
 
-	buildFun = map[string]func(*tasking.T, bool){
+	buildFun = map[string]func(*tasking.T){
 		"xorg":    buildXorg,
 		"android": buildAndroid,
 	}
 
-	runFun = map[string]func(*tasking.T, string){
+	runFun = map[string]func(*tasking.T){
 		"xorg":    runXorg,
 		"android": runAndroid,
 	}
@@ -47,16 +47,16 @@ var (
 //    Build the tests for the given platforms (xorg/android).
 //
 // OPTIONS
-//    --all, -a
-//        force rebuilding of packages that are already up-to-date
+//    --buildflags=""
+//        pass the given flags to the compiler
 //    --verbose, -v
 //        run in verbose mode
 func TaskBuild(t *tasking.T) {
 	if len(t.Args) == 0 {
 		t.Error("At least a platform name must be specified!")
 	}
-	for _, platform := range t.Args {
-		buildFun[platform](t, t.Flags.Bool("a"))
+	if f, ok := buildFun[t.Args[0]]; ok {
+		f(t)
 	}
 	if t.Failed() {
 		t.Fatalf("%-20s %s\n", status(t.Failed()), "Build the tests for the given platforms.")
@@ -68,7 +68,7 @@ func TaskBuild(t *tasking.T) {
 //    test - Run the tests
 //
 // DESCRIPTION
-//    Build and run the tests on the given platforms.
+//    Build and run the tests on the given platform.
 //
 // OPTIONS
 //    --flags=""
@@ -79,10 +79,8 @@ func TaskBuild(t *tasking.T) {
 //        run in verbose mode
 func TaskTest(t *tasking.T) {
 	TaskBuild(t)
-	for _, platform := range t.Args {
-		if f, ok := runFun[platform]; ok {
-			f(t, t.Flags.String("flags"))
-		}
+	if f, ok := runFun[t.Args[0]]; ok {
+		f(t)
 	}
 	if t.Failed() {
 		t.Fatalf("%-20s %s\n", status(t.Failed()), "Run the example on the given platforms.")
@@ -114,24 +112,36 @@ func TaskDeploy(t *tasking.T) {
 //    Clean all generated files and paths.
 //
 // OPTIONS
+//    --clean-backup
+//        clean all backup files (*~, #*)
 //    --verbose, -v
 //        run in verbose mode
 func TaskClean(t *tasking.T) {
 	var paths []string
 
-	// Remove shared libraries
-	paths = append(paths, SharedLibraryPaths...)
-
-	// Remove ARM binaries
-	paths = append(paths, ARMBinaryPath, filepath.Join("bin", ProjectName))
-
-	// Remove APK files
-	apkFiles, _ := filepath.Glob(filepath.Join(AndroidPath, "bin/*.apk"))
-	paths = append(paths, apkFiles...)
+	paths = append(
+		paths,
+		ARMBinaryPath,
+		filepath.Join("bin", ProjectName),
+		filepath.Join(AndroidPath, "bin"),
+		filepath.Join(AndroidPath, "gen"),
+		filepath.Join(AndroidPath, "libs"),
+		filepath.Join(AndroidPath, "obj"),
+	)
 
 	// Actually remove files using rm
 	for _, path := range paths {
-		rm_rf(t, path)
+		err := rm_rf(t, path)
+		if err != nil {
+			t.Error(err)
+		}
+	}
+
+	if t.Flags.Bool("clean-backup") {
+		err := t.Exec("find folder -name '*~' -print0 | xargs -0 rm -f")
+		if err != nil {
+			t.Error(err)
+		}
 	}
 
 	if t.Failed() {
@@ -140,15 +150,11 @@ func TaskClean(t *tasking.T) {
 	t.Logf("%-20s %s\n", status(t.Failed()), "Clean all generated files and paths.")
 }
 
-func buildXorg(t *tasking.T, buildAll bool) {
-	allFlagString := ""
-	if buildAll {
-		allFlagString = "-a"
-	}
+func buildXorg(t *tasking.T) {
 	err := t.Exec(
 		`sh -c "`,
 		"GOPATH=`pwd`:$GOPATH",
-		`go build`, allFlagString,
+		`go install`, t.Flags.String("buildflags"),
 		ProjectName, `"`,
 	)
 	if err != nil {
@@ -156,15 +162,9 @@ func buildXorg(t *tasking.T, buildAll bool) {
 	}
 }
 
-func buildAndroid(t *tasking.T, buildAll bool) {
-	allFlagString := ""
-
+func buildAndroid(t *tasking.T) {
 	os.MkdirAll("android/libs/armeabi-v7a", 0777)
 	os.MkdirAll("android/obj/local/armeabi-v7a", 0777)
-
-	if buildAll {
-		allFlagString = "-a"
-	}
 
 	err := t.Exec(`sh -c "`,
 		`CC="$NDK_ROOT/bin/arm-linux-androideabi-gcc"`,
@@ -174,7 +174,7 @@ func buildAndroid(t *tasking.T, buildAll bool) {
 		"GOARCH=arm",
 		"GOARM=7",
 		"CGO_ENABLED=1",
-		"$GOANDROID/go install", allFlagString,
+		"$GOANDROID/go install", t.Flags.String("buildflags"),
 		"$GOFLAGS",
 		`-ldflags=\"-android -shared -extld $NDK_ROOT/bin/arm-linux-androideabi-gcc -extldflags '-march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16'\"`,
 		"-tags android",
@@ -200,19 +200,19 @@ func buildAndroid(t *tasking.T, buildAll bool) {
 	}
 }
 
-func runXorg(t *tasking.T, flags string) {
-	buildXorg(t, false)
+func runXorg(t *tasking.T) {
+	buildXorg(t)
 	err := t.Exec(
-		fmt.Sprintf("./%s", ProjectName),
-		flags,
+		filepath.Join("bin", ProjectName),
+		t.Flags.String("flags"),
 	)
 	if err != nil {
 		t.Error(err)
 	}
 }
 
-func runAndroid(t *tasking.T, flags string) {
-	buildAndroid(t, false)
+func runAndroid(t *tasking.T) {
+	buildAndroid(t)
 	deployAndroid(t)
 	err := t.Exec(
 		fmt.Sprintf(
@@ -231,7 +231,7 @@ func runAndroid(t *tasking.T, flags string) {
 }
 
 func deployAndroid(t *tasking.T) {
-	buildAndroid(t, false)
+	buildAndroid(t)
 	err := t.Exec("ant -f android/build.xml clean debug")
 	if err != nil {
 		t.Error(err)

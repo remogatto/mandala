@@ -122,7 +122,6 @@ func Program(fsh, vsh uint32) uint32 {
 }
 
 func (renderState *renderState) init(window gorgasm.Window) {
-	println(window)
 	window.MakeContextCurrent()
 
 	renderState.window = window

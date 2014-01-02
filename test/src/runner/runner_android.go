@@ -4,7 +4,7 @@ package main
 
 import (
 	"github.com/remogatto/gorgasm"
-	"github.com/remogatto/gorgasm/integration_test/src/testlib"
+	"github.com/remogatto/gorgasm/test/src/testlib"
 	"github.com/remogatto/prettytest"
 	"runtime"
 )
