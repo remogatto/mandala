@@ -9,6 +9,7 @@ import (
 	"image"
 	"image/png"
 	"log"
+	"os"
 	"runtime"
 	"time"
 )
@@ -22,7 +23,11 @@ type TestSuite struct {
 	prettytest.Suite
 	rlControl        *renderLoopControl
 	creationSequence []string
+	resetActionMove  chan int
+
 	testDraw         chan bool
+	testActionUpDown chan gorgasm.ActionUpDownEvent
+	testActionMove   chan gorgasm.ActionMoveEvent
 }
 
 var (
@@ -267,6 +272,9 @@ func (t *TestSuite) eventLoopFunc(renderLoopControl *renderLoopControl) loop.Loo
 
 		for {
 			select {
+			case c := <-t.resetActionMove:
+				t.testActionMove = make(chan gorgasm.ActionMoveEvent, c)
+
 			// Receive events from the framework.
 			case untypedEvent := <-gorgasm.Events():
 				switch event := untypedEvent.(type) {
@@ -280,21 +288,17 @@ func (t *TestSuite) eventLoopFunc(renderLoopControl *renderLoopControl) loop.Loo
 				case gorgasm.NativeWindowCreatedEvent:
 					renderLoopControl.window <- event.Window
 
-				// Finger down/up on the screen.
+					// Finger down/up on the screen.
 				case gorgasm.ActionUpDownEvent:
-					if event.Down {
-						gorgasm.Logf("Finger is DOWN at %f %f", event.X, event.Y)
-					} else {
-						gorgasm.Logf("Finger is now UP")
-					}
+					t.testActionUpDown <- event
 
 					// Finger is moving on the screen.
 				case gorgasm.ActionMoveEvent:
-					gorgasm.Logf("Finger is moving at coord %f %f", event.X, event.Y)
+					if t.testActionMove != nil {
+						t.testActionMove <- event
+					}
 
 				case gorgasm.DestroyEvent:
-					gorgasm.Logf("Stop rendering...\n")
-					gorgasm.Logf("Quitting from application...\n")
 					return nil
 
 				case gorgasm.NativeWindowRedrawNeededEvent:
@@ -373,9 +377,15 @@ func (t *TestSuite) BeforeAll() {
 
 }
 
+func (t *TestSuite) AfterAll() {
+	os.Exit(0)
+}
+
 func NewTestSuite() *TestSuite {
 	return &TestSuite{
-		rlControl: newRenderLoopControl(),
-		testDraw:  make(chan bool),
+		rlControl:        newRenderLoopControl(),
+		resetActionMove:  make(chan int),
+		testDraw:         make(chan bool),
+		testActionUpDown: make(chan gorgasm.ActionUpDownEvent),
 	}
 }

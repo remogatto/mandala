@@ -31,11 +31,11 @@ func androidEventLoopFunc(event chan interface{}, looperCh chan *C.ALooper) loop
 			select {
 			case untypedEvent := <-event:
 				switch event := untypedEvent.(type) {
-				case InputQueueCreatedEvent:
-					inputQueue = (*C.AInputQueue)(event.InputQueue)
+				case inputQueueCreatedEvent:
+					inputQueue = (*C.AInputQueue)(event.inputQueue)
 					C.AInputQueue_attachLooper(inputQueue, looper, LOOPER_ID_INPUT, nil, nil)
-				case InputQueueDestroyedEvent:
-					inputQueue = (*C.AInputQueue)(event.InputQueue)
+				case inputQueueDestroyedEvent:
+					inputQueue = (*C.AInputQueue)(event.inputQueue)
 					C.AInputQueue_detachLooper(inputQueue)
 				}
 			default:

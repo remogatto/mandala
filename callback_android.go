@@ -117,6 +117,10 @@ func onCreate(act *C.ANativeActivity, savedState unsafe.Pointer, savedStateSize 
 	internalEvent = make(chan interface{})
 	looperCh := make(chan *C.ALooper)
 
+	// Create a new state for the current activity and store it in
+	// states global map.
+	setState(act, &state{act, nil})
+
 	loop.GoRecoverable(
 		androidEventLoopFunc(internalEvent, looperCh),
 		func(rs loop.Recoverings) (loop.Recoverings, error) {
@@ -130,10 +134,6 @@ func onCreate(act *C.ANativeActivity, savedState unsafe.Pointer, savedStateSize 
 
 	activity <- unsafe.Pointer(act)
 	looper = <-looperCh
-
-	// Create a new state for the current activity and store it in
-	// states global map.
-	setState(act, &state{act, nil})
 
 	event <- CreateEvent{unsafe.Pointer(act), savedState, int(savedStateSize)}
 }
@@ -188,9 +188,9 @@ func onInputQueueCreated(act *C.ANativeActivity, queue unsafe.Pointer) {
 	}()
 	Debugf("onInputQueueCreated...\n")
 
-	internalEvent <- InputQueueCreatedEvent{
-		Activity:   unsafe.Pointer(act),
-		InputQueue: queue,
+	internalEvent <- inputQueueCreatedEvent{
+		activity:   unsafe.Pointer(act),
+		inputQueue: queue,
 	}
 
 	Debugf("onInputQueueCreated done\n")
@@ -205,7 +205,7 @@ func onInputQueueDestroyed(act *C.ANativeActivity, queue unsafe.Pointer) {
 
 	C.ALooper_wake(looper)
 
-	internalEvent <- InputQueueDestroyedEvent{
+	internalEvent <- inputQueueDestroyedEvent{
 		unsafe.Pointer(act),
 		queue,
 	}

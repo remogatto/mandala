@@ -1,9 +1,0 @@
-!<arch>
-__.GOSYMDEF     0           0     0     644     0         `
-__.PKGDEF       0           0     0     644     58        `
-empty archive
-import
-$$
-package __emptyarchive__ safe
-
-$$

@@ -73,8 +73,6 @@ func TaskBuild(t *tasking.T) {
 // OPTIONS
 //    --flags=""
 //        pass the given flags to the executable
-//    --logcat
-//        show logcat output (android only)
 //    --verbose, -v
 //        run in verbose mode
 func TaskTest(t *tasking.T) {
@@ -122,6 +120,7 @@ func TaskClean(t *tasking.T) {
 	paths = append(
 		paths,
 		ARMBinaryPath,
+		"pkg",
 		filepath.Join("bin", ProjectName),
 		filepath.Join(AndroidPath, "bin"),
 		filepath.Join(AndroidPath, "gen"),
@@ -214,6 +213,14 @@ func runXorg(t *tasking.T) {
 func runAndroid(t *tasking.T) {
 	buildAndroid(t)
 	deployAndroid(t)
+	// err := t.Exec(
+	// 	fmt.Sprintf(
+	// 		"adb shell setprop log.redirect-stdio true",
+	// 		ProjectName,
+	// 	))
+	// if err != nil {
+	// 	t.Error(err)
+	// }
 	err := t.Exec(
 		fmt.Sprintf(
 			"adb shell am start -a android.intent.action.MAIN -n net.gorgasm.%s/android.app.NativeActivity",
@@ -222,12 +229,18 @@ func runAndroid(t *tasking.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if t.Flags.Bool("logcat") {
-		err = t.Exec("adb shell logcat")
-		if err != nil {
-			t.Error(err)
-		}
+	err = t.Exec("adb shell logcat")
+	if err != nil {
+		t.Error(err)
 	}
+	// err = t.Exec(
+	// 	fmt.Sprintf(
+	// 		"adb shell setprop log.redirect-stdio false",
+	// 		ProjectName,
+	// 	))
+	// if err != nil {
+	// 	t.Error(err)
+	// }
 }
 
 func deployAndroid(t *tasking.T) {

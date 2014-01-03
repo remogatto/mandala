@@ -33,5 +33,9 @@ func main() {
 
 	gorgasm.Init(window)
 
-	prettytest.Run(new(testing.T), testlib.NewTestSuite())
+	go prettytest.Run(new(testing.T), testlib.NewTestSuite())
+
+	for !window.ShouldClose() {
+		glfw.WaitEvents()
+	}
 }

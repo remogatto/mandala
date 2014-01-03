@@ -11,7 +11,6 @@ import "C"
 
 var (
 	states map[*C.ANativeActivity]*state
-
 	// Global mutexes.
 	rwMutex sync.RWMutex
 	mutex   sync.Mutex
@@ -32,10 +31,11 @@ func getState(act *C.ANativeActivity) *state {
 	return state
 }
 
-func setState(act *C.ANativeActivity, state *state) {
+func setState(act *C.ANativeActivity, state *state) *state {
 	rwMutex.Lock()
 	defer rwMutex.Unlock()
 	states[act] = state
+	return state
 }
 
 func deleteState(act *C.ANativeActivity, state *state) {

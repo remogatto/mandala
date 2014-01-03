@@ -55,23 +55,25 @@ type NativeWindowDestroyedEvent struct {
 	Window   unsafe.Pointer
 }
 
-type InputQueueCreatedEvent struct {
-	Activity   unsafe.Pointer
-	InputQueue unsafe.Pointer
-}
-
-type InputQueueDestroyedEvent struct {
-	Activity   unsafe.Pointer
-	InputQueue unsafe.Pointer
-}
-
 type ActionUpDownEvent struct {
 	Activity unsafe.Pointer
-	Down     bool    // Is finger down on the screen?
+	Down     bool
 	X, Y     float32 // Coordinates of the touched point
 }
 
 type ActionMoveEvent struct {
 	Activity unsafe.Pointer
 	X, Y     float32 // Coordinates of the touched point in movement
+}
+
+// Internal events
+
+type inputQueueCreatedEvent struct {
+	activity   unsafe.Pointer
+	inputQueue unsafe.Pointer
+}
+
+type inputQueueDestroyedEvent struct {
+	activity   unsafe.Pointer
+	inputQueue unsafe.Pointer
 }
