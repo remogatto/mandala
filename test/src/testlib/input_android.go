@@ -43,3 +43,21 @@ func Move(x1, y1, x2, y2 float32) error {
 	}
 	return nil
 }
+
+func Back() error {
+	var (
+		errbuf bytes.Buffer
+		outbuf bytes.Buffer
+	)
+	cmd := exec.Command(
+		`/system/bin/sh`,
+		`-c`,
+		fmt.Sprintf("input keyeven KEYCODE_BACK"),
+	)
+	cmd.Stderr, cmd.Stdout = &errbuf, &outbuf
+	err := cmd.Run()
+	if err != nil {
+		return err
+	}
+	return nil
+}

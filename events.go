@@ -4,6 +4,16 @@ import (
 	"unsafe"
 )
 
+type NativeWindowCreatedEvent struct {
+	Activity unsafe.Pointer
+	Window   Window
+}
+
+type NativeWindowDestroyedEvent struct {
+	Activity unsafe.Pointer
+	Window   Window
+}
+
 type WindowFocusChangedEvent struct {
 	Activity unsafe.Pointer
 	HasFocus bool
@@ -43,16 +53,6 @@ type CreateEvent struct {
 
 type DestroyEvent struct {
 	Activity unsafe.Pointer
-}
-
-type NativeWindowCreatedEvent struct {
-	Activity unsafe.Pointer
-	Window   Window
-}
-
-type NativeWindowDestroyedEvent struct {
-	Activity unsafe.Pointer
-	Window   unsafe.Pointer
 }
 
 type ActionUpDownEvent struct {

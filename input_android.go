@@ -71,9 +71,7 @@ func dispatchEvent(nativeEvent *C.AInputEvent) bool {
 		case C.AMOTION_EVENT_ACTION_MOVE:
 			x := float32(C.AMotionEvent_getX(nativeEvent, 0))
 			y := float32(C.AMotionEvent_getY(nativeEvent, 0))
-			Debugf("Send event")
 			event <- ActionMoveEvent{X: x, Y: y}
-			Debugf("Event sent")
 		}
 	}
 	return false

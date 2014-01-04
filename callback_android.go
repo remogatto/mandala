@@ -14,9 +14,9 @@ import "C"
 
 import (
 	"fmt"
+	"unsafe"
 	"git.tideland.biz/goas/loop"
 	"github.com/remogatto/egl/platform/android"
-	"unsafe"
 )
 
 var (
@@ -87,7 +87,7 @@ func onPause(act *C.ANativeActivity) {
 		handleCallbackError(act, recover())
 	}()
 	Debugf("Pausing...\n")
-	event <- PauseEvent{}
+	event <- PauseEvent{unsafe.Pointer(act)}
 	Debugf("Paused...\n")
 }
 
@@ -177,7 +177,12 @@ func onNativeWindowDestroyed(act *C.ANativeActivity, win unsafe.Pointer) {
 		handleCallbackError(act, recover())
 	}()
 	Debugf("onWindowDestroy...\n")
-	// egl.DestroySurface(.Display, platform.Surface)
+
+	state := getState(act)
+	event <- NativeWindowDestroyedEvent{
+		Activity: unsafe.Pointer(act),
+		Window:   state.window,
+	}
 	Debugf("onWindowDestroy done\n")
 }
 

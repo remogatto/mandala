@@ -2,10 +2,11 @@ package gorgasm
 
 import (
 	"fmt"
-	"git.tideland.biz/goas/loop"
 	"log"
 	"runtime"
 	"unsafe"
+
+	"git.tideland.biz/goas/loop"
 )
 
 const (

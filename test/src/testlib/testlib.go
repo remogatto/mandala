@@ -5,7 +5,6 @@ import (
 	"image"
 	"image/png"
 	"log"
-	"os"
 	"runtime"
 	"time"
 
@@ -24,9 +23,12 @@ type TestSuite struct {
 	prettytest.Suite
 	rlControl        *renderLoopControl
 	creationSequence []string
-	resetActionMove  chan int
+	exitSequence     []string
+
+	resetActionMove chan int
 
 	testDraw         chan bool
+	testPause        chan bool
 	testActionUpDown chan gorgasm.ActionUpDownEvent
 	testActionMove   chan gorgasm.ActionMoveEvent
 }
@@ -273,11 +275,13 @@ func (t *TestSuite) eventLoopFunc(renderLoopControl *renderLoopControl) loop.Loo
 
 		for {
 			select {
+
 			case c := <-t.resetActionMove:
 				t.testActionMove = make(chan gorgasm.ActionMoveEvent, c)
 
 			// Receive events from the framework.
 			case untypedEvent := <-gorgasm.Events():
+
 				switch event := untypedEvent.(type) {
 
 				case gorgasm.CreateEvent:
@@ -291,7 +295,9 @@ func (t *TestSuite) eventLoopFunc(renderLoopControl *renderLoopControl) loop.Loo
 
 					// Finger down/up on the screen.
 				case gorgasm.ActionUpDownEvent:
-					t.testActionUpDown <- event
+					if t.testActionMove == nil {
+						t.testActionUpDown <- event
+					}
 
 					// Finger is moving on the screen.
 				case gorgasm.ActionMoveEvent:
@@ -299,14 +305,20 @@ func (t *TestSuite) eventLoopFunc(renderLoopControl *renderLoopControl) loop.Loo
 						t.testActionMove <- event
 					}
 
+				case gorgasm.NativeWindowDestroyedEvent:
+					gorgasm.Debugf("Window destroyed")
+
 				case gorgasm.DestroyEvent:
-					return nil
+					// return nil
 
 				case gorgasm.NativeWindowRedrawNeededEvent:
+					gorgasm.Debugf("Redraw needed")
 
 				case gorgasm.PauseEvent:
-					gorgasm.Logf("Application was paused. Stopping rendering ticker.")
-					renderLoopControl.pause <- true
+					gorgasm.Debugf("exitSequence: %v", t.exitSequence)
+					// renderLoopControl.pause <- true
+					// t.exitSequence = append(t.exitSequence, "onPause")
+					// t.testPause <- true
 
 				case gorgasm.ResumeEvent:
 					t.creationSequence = append(t.creationSequence, "onResume")
@@ -379,7 +391,7 @@ func (t *TestSuite) BeforeAll() {
 }
 
 func (t *TestSuite) AfterAll() {
-	os.Exit(0)
+	// os.Exit(0)
 }
 
 func NewTestSuite() *TestSuite {
@@ -387,6 +399,7 @@ func NewTestSuite() *TestSuite {
 		rlControl:        newRenderLoopControl(),
 		resetActionMove:  make(chan int),
 		testDraw:         make(chan bool),
+		testPause:        make(chan bool),
 		testActionUpDown: make(chan gorgasm.ActionUpDownEvent),
 	}
 }
