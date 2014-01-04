@@ -26,7 +26,7 @@ func Tap(x, y float32) error {
 	return nil
 }
 
-func Move(x, y float32) error {
+func Move(x1, y1, x2, y2 float32) error {
 	var (
 		errbuf bytes.Buffer
 		outbuf bytes.Buffer
@@ -34,7 +34,7 @@ func Move(x, y float32) error {
 	cmd := exec.Command(
 		`/system/bin/sh`,
 		`-c`,
-		fmt.Sprintf("input swipe %f %f %f %f", x, y, x+2, x+2),
+		fmt.Sprintf("input swipe %f %f %f %f", x1, y1, x2, y2),
 	)
 	cmd.Stderr, cmd.Stdout = &errbuf, &outbuf
 	err := cmd.Run()

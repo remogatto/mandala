@@ -2,16 +2,17 @@ package testlib
 
 import (
 	"fmt"
-	"git.tideland.biz/goas/loop"
-	"github.com/remogatto/gorgasm"
-	gl "github.com/remogatto/opengles2"
-	"github.com/remogatto/prettytest"
 	"image"
 	"image/png"
 	"log"
 	"os"
 	"runtime"
 	"time"
+
+	"git.tideland.biz/goas/loop"
+	"github.com/remogatto/gorgasm"
+	gl "github.com/remogatto/opengles2"
+	"github.com/remogatto/prettytest"
 )
 
 const (

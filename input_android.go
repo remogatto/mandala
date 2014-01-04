@@ -7,8 +7,8 @@ package gorgasm
 import "C"
 
 import (
-	"git.tideland.biz/goas/loop"
 	"runtime"
+	"git.tideland.biz/goas/loop"
 )
 
 const LOOPER_ID_INPUT = 0
@@ -71,7 +71,9 @@ func dispatchEvent(nativeEvent *C.AInputEvent) bool {
 		case C.AMOTION_EVENT_ACTION_MOVE:
 			x := float32(C.AMotionEvent_getX(nativeEvent, 0))
 			y := float32(C.AMotionEvent_getY(nativeEvent, 0))
+			Debugf("Send event")
 			event <- ActionMoveEvent{X: x, Y: y}
+			Debugf("Event sent")
 		}
 	}
 	return false

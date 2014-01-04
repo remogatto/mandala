@@ -31,34 +31,34 @@ func (t *TestSuite) TestActionUpDown() {
 
 	event := <-t.testActionUpDown
 
+	t.True(event.Down)
 	t.Equal(float32(100.0), event.X)
 	t.Equal(float32(100.0), event.Y)
 }
 
-// func (t *TestSuite) TestActionMove() {
-// 	// Check only after at least the first frame has been rendered
-// 	<-t.testDraw
+func (t *TestSuite) TestActionMove() {
+	t.Pending()
+	// // Check only after at least the first frame has been rendered
+	// <-t.testDraw
 
-// 	movements := 10
+	// movements := 10
 
-// 	// Begin counting move events from now
-// 	t.resetActionMove <- movements
+	// // Begin counting move events from now
+	// t.resetActionMove <- movements
 
-// 	for i := float32(0); i < float32(movements); i += 1.0 {
-// 		if err := Move(110.0+i, 110.0+i); err != nil {
-// 			panic(err)
-// 		}
-// 	}
+	// if err := Move(10, 10, 20, 20); err != nil {
+	// 	panic(err)
+	// }
 
-// 	close(t.testActionMove)
+	// close(t.testActionMove)
 
-// 	count := 0
-// 	for event := range t.testActionMove {
-// 		t.Equal(float32(110.0)+float32(count), event.X)
-// 		t.Equal(float32(110.0)+float32(count), event.Y)
-// 		count++
-// 	}
-// }
+	// count := 0
+	// for event := range t.testActionMove {
+	// 	t.Equal(float32(10.0)+float32(count), event.X)
+	// 	t.Equal(float32(10.0)+float32(count), event.Y)
+	// 	count++
+	// }
+}
 
 func (t *TestSuite) TestDraw() {
 	t.True(<-t.testDraw)

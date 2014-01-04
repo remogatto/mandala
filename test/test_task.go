@@ -213,15 +213,15 @@ func runXorg(t *tasking.T) {
 func runAndroid(t *tasking.T) {
 	buildAndroid(t)
 	deployAndroid(t)
-	// err := t.Exec(
-	// 	fmt.Sprintf(
-	// 		"adb shell setprop log.redirect-stdio true",
-	// 		ProjectName,
-	// 	))
-	// if err != nil {
-	// 	t.Error(err)
-	// }
 	err := t.Exec(
+		fmt.Sprintf(
+			"adb shell setprop log.redirect-stdio true",
+			ProjectName,
+		))
+	if err != nil {
+		t.Error(err)
+	}
+	err = t.Exec(
 		fmt.Sprintf(
 			"adb shell am start -a android.intent.action.MAIN -n net.gorgasm.%s/android.app.NativeActivity",
 			ProjectName,
@@ -233,14 +233,14 @@ func runAndroid(t *tasking.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	// err = t.Exec(
-	// 	fmt.Sprintf(
-	// 		"adb shell setprop log.redirect-stdio false",
-	// 		ProjectName,
-	// 	))
-	// if err != nil {
-	// 	t.Error(err)
-	// }
+	err = t.Exec(
+		fmt.Sprintf(
+			"adb shell setprop log.redirect-stdio false",
+			ProjectName,
+		))
+	if err != nil {
+		t.Error(err)
+	}
 }
 
 func deployAndroid(t *tasking.T) {
