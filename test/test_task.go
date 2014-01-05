@@ -4,9 +4,10 @@ package test
 
 import (
 	"fmt"
-	"github.com/jingweno/gotask/tasking"
 	"os"
 	"path/filepath"
+
+	"github.com/jingweno/gotask/tasking"
 )
 
 var (
@@ -25,6 +26,9 @@ var (
 
 	// Android path
 	AndroidPath = "android"
+
+	// Logcat argument
+	Logcat = "Gorgasm:* stdout:* stderr:* *:S"
 
 	buildFun = map[string]func(*tasking.T){
 		"xorg":    buildXorg,
@@ -68,7 +72,7 @@ func TaskBuild(t *tasking.T) {
 //    test - Run the tests
 //
 // DESCRIPTION
-//    Build and run the tests on the given platform.
+//    Build and run the tests on the given platform returning output using logcat.
 //
 // OPTIONS
 //    --flags=""
@@ -215,29 +219,13 @@ func runAndroid(t *tasking.T) {
 	deployAndroid(t)
 	err := t.Exec(
 		fmt.Sprintf(
-			"adb shell setprop log.redirect-stdio true",
-			ProjectName,
-		))
-	if err != nil {
-		t.Error(err)
-	}
-	err = t.Exec(
-		fmt.Sprintf(
 			"adb shell am start -a android.intent.action.MAIN -n net.gorgasm.%s/android.app.NativeActivity",
 			ProjectName,
 		))
 	if err != nil {
 		t.Error(err)
 	}
-	err = t.Exec("adb shell logcat")
-	if err != nil {
-		t.Error(err)
-	}
-	err = t.Exec(
-		fmt.Sprintf(
-			"adb shell setprop log.redirect-stdio false",
-			ProjectName,
-		))
+	err = t.Exec("adb shell logcat", "Gorgasm:* stdout:* stderr:* *:S")
 	if err != nil {
 		t.Error(err)
 	}

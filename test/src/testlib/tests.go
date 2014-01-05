@@ -40,10 +40,18 @@ func (t *TestSuite) TestActionMove() {
 	// Check only after at least the first frame has been rendered
 	<-t.testDraw
 
+	// Move the cursor on the initial position (this has no effect
+	// on the android-side but it's necessary during the xorg
+	// test)
+	if err := Move(10, 10, 10, 10); err != nil {
+		panic(err)
+	}
+
 	movements := 10
 
 	// Begin counting move events from now
 	t.resetActionMove <- movements
+	<-t.resetActionMove
 
 	if err := Move(10, 10, 20, 20); err != nil {
 		panic(err)
@@ -53,12 +61,12 @@ func (t *TestSuite) TestActionMove() {
 
 	count := 0
 	for event := range t.testActionMove {
-		t.Equal(float32(10.0)+float32(count), event.X)
-		t.Equal(float32(10.0)+float32(count), event.Y)
+		t.Equal(float32(11.0)+float32(count), event.X)
+		t.Equal(float32(11.0)+float32(count), event.Y)
 		count++
 	}
 
-	t.testActionMove = nil
+	t.moving = false
 }
 
 func (t *TestSuite) TestDraw() {

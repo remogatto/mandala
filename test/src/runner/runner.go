@@ -3,12 +3,13 @@
 package main
 
 import (
+	"runtime"
+	"testing"
+
 	glfw "github.com/go-gl/glfw3"
 	"github.com/remogatto/gorgasm"
 	"github.com/remogatto/gorgasm/test/src/testlib"
 	"github.com/remogatto/prettytest"
-	"runtime"
-	"testing"
 )
 
 func main() {
@@ -17,7 +18,6 @@ func main() {
 	defer glfw.Terminate()
 
 	gorgasm.Verbose = true
-	gorgasm.Debug = true
 
 	if !glfw.Init() {
 		panic("Can't init glfw!")

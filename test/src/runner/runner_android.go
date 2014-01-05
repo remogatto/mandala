@@ -3,10 +3,11 @@
 package main
 
 import (
+	"runtime"
+
 	"github.com/remogatto/gorgasm"
 	"github.com/remogatto/gorgasm/test/src/testlib"
 	"github.com/remogatto/prettytest"
-	"runtime"
 )
 
 type T struct{}
@@ -19,7 +20,6 @@ func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	gorgasm.Verbose = true
-	gorgasm.Debug = true
 
 	go prettytest.RunWithFormatter(
 		t,

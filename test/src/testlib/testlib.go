@@ -5,6 +5,7 @@ import (
 	"image"
 	"image/png"
 	"log"
+	"os"
 	"runtime"
 	"time"
 
@@ -24,6 +25,7 @@ type TestSuite struct {
 	rlControl        *renderLoopControl
 	creationSequence []string
 	exitSequence     []string
+	moving           bool
 
 	resetActionMove chan int
 
@@ -278,6 +280,8 @@ func (t *TestSuite) eventLoopFunc(renderLoopControl *renderLoopControl) loop.Loo
 
 			case c := <-t.resetActionMove:
 				t.testActionMove = make(chan gorgasm.ActionMoveEvent, c)
+				t.moving = true
+				t.resetActionMove <- 0
 
 			// Receive events from the framework.
 			case untypedEvent := <-gorgasm.Events():
@@ -295,13 +299,13 @@ func (t *TestSuite) eventLoopFunc(renderLoopControl *renderLoopControl) loop.Loo
 
 					// Finger down/up on the screen.
 				case gorgasm.ActionUpDownEvent:
-					if t.testActionMove == nil {
+					if !t.moving {
 						t.testActionUpDown <- event
 					}
 
 					// Finger is moving on the screen.
 				case gorgasm.ActionMoveEvent:
-					if t.testActionMove != nil {
+					if t.moving {
 						t.testActionMove <- event
 					}
 
@@ -391,7 +395,7 @@ func (t *TestSuite) BeforeAll() {
 }
 
 func (t *TestSuite) AfterAll() {
-	// os.Exit(0)
+	os.Exit(0)
 }
 
 func NewTestSuite() *TestSuite {
