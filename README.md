@@ -127,7 +127,7 @@ After installing GLFW3, in order to install the Go binding see [here](https://gi
 ## gotask
 
 <pre>
-go get github.com/jingweno/gotask
+go get github.com/remogatto/gotask # I'm using my fork here until my changes go upstream
 </pre>
 
 ## xdotool
