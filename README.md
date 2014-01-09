@@ -103,12 +103,6 @@ After installing [Goandroid](https://github.com/eliasnaur/goandroid) you have to
 GOANDROID=$HOME/src/goandroid/go/bin
 </pre>
 
-And don't forget to add it to <tt>PATH</tt>:
-
-<pre>
-PATH=$PATH:$GOANDROID
-</pre>
-
 ## EGL/OpenGL ES 2
 
 On a debian-like system:
@@ -120,7 +114,7 @@ sudo apt-get install libgles2-mesa-dev libegl1-mesa-dev
 ## GLFW3
 
 Install from source following the instruction [here](http://www.glfw.org/docs/latest/compile.html). Please note that
-you have to configure GLFW in order to use EGL and OpenGL ES 2. For furter information see [here](http://www.glfw.org/docs/latest/compile.html#compile_options_egl) and [here](http://www.glfw.org/docs/latest/compile.html#compile_options_shared). Be sure to build GLFW as a shared object!
+you have to configure GLFW in order to use EGL and OpenGL ES 2. For further informations see [here](http://www.glfw.org/docs/latest/compile.html#compile_options_egl) and [here](http://www.glfw.org/docs/latest/compile.html#compile_options_shared). Be sure to build GLFW as a shared object!
 
 After installing GLFW3, in order to install the Go binding see [here](https://github.com/go-gl/glfw3). 
 
