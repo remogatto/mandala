@@ -4,7 +4,7 @@ Gorgasm is a framework for writing Android native applications in
 [Go](http://golang.org). You can develop, test and run your application on your desktop
 and then deploy it to an Android device. It encourages the use of
 idiomatic Go for writing Android applications: communication happens
-through channels, without callbacks. The framework is not to be
+through channels, no callbacks. The framework is not to be
 considered as an high-level game engine but as a basic layer onto
 which game engines can be build or existing ones can be used. In my
 opinion, this opens interesting scenarios in the developing of native
@@ -49,8 +49,8 @@ device is obtained using a bunch of technologies. In particular
 * OpenGL ES 2.0
 * GLFW 3
 
-The EGL layer is necessary to use an OpenGL ES context on the
-desktop. The GLFW library is responsible of managing the rendering
+The EGL layer is necessary to use an OpenGL ES 2 context on a
+desktop environment. The GLFW library is responsible of managing the rendering
 context and the handling of events in a window.
 
 The framework itself provides an event channel from which client code
