@@ -32,9 +32,9 @@ Have a nice Gorgasm!
 
 * [Android NDK](http://developer.android.com/tools/sdk/ndk/index.html)
 * [Goandroid](https://github.com/eliasnaur/goandroid)
-* EGL [1](https://www.khronos.org/egl/)[2](https://github.com/remogatto/egl)
-* OpenGL ES 2 [1](http://www.khronos.org/opengles/2_X/)[2](https://github.com/remogatto/opengles2)
-* GLFW 3 [1](http://www.glfw.org/)[2](https://github.com/go-gl/glfw3)
+* [EGL](https://www.khronos.org/egl/)
+* [OpenGL ES 2](http://www.khronos.org/opengles/2_X/)
+* [GLFW 3](http://www.glfw.org/)
 * [Gotask](https://github.com/jingweno/gotask)
 * [Loop](http://git.tideland.biz/goas/loop)
 * [PrettyTest](https://github.com/remogatto/prettytest)
@@ -69,7 +69,7 @@ events, the other is responsible for rendering the scene. In order to
 dealing with application resources (images, sounds, configuration
 files, etc.), the framework provides an AssetManager object. Client
 code sends request to it in order to obtain resources as
-<pre>io.Reader</pre> instances. In the desktop application this simply
+<tt>io.Reader</tt> instances. In the desktop application this simply
 means opening the file at the given path. In the Android application
 the framework will unpack the apk archive on the fly getting the
 requested resources from it. However, is the framework responsibility
@@ -176,4 +176,4 @@ section)
 
 # License
 
-See LICENSE.md
+See [LICENSE](LICENSE)
