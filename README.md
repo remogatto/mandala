@@ -1,7 +1,7 @@
 # What's that?
 
 Gorgasm is a framework for writing Android native applications in
-[Go]. You can develop, test and run your application on your desktop
+[Go](http://golang.org). You can develop, test and run your application on your desktop
 and then deploy it to an Android device. It encourages the use of
 idiomatic Go for writing Android applications: communication happens
 through channels, without callbacks. The framework is not to be
@@ -96,19 +96,19 @@ See here.
 
 ## Goandroid
 
-See here.
+See [here](https://github.com/eliasnaur/goandroid).
 
 ## EGL/OpenGL ES 2
 
 On a debian-like system:
 
 <pre>
-sudo apt-get install
+sudo apt-get install libgles2-mesa-dev libegl1-mesa-dev
 </pre>
 
 ## GLFW3
 
-Install from source following the instruction here. Please note that
+Install from source following the instruction [here](http://www.glfw.org/docs/latest/compile.html). Please note that
 you have to configure GLFW in order to use EGL and OpenGL ES 2.
 
 ## gotask
