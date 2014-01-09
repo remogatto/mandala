@@ -51,7 +51,7 @@ var (
 //    Build the tests for the given platforms (xorg/android).
 //
 // OPTIONS
-//    --buildflags=""
+//    --buildflags=
 //        pass the given flags to the compiler
 //    --verbose, -v
 //        run in verbose mode
@@ -75,7 +75,7 @@ func TaskBuild(t *tasking.T) {
 //    Build and run the tests on the given platform returning output using logcat.
 //
 // OPTIONS
-//    --flags=""
+//    --flags=
 //        pass the given flags to the executable
 //    --verbose, -v
 //        run in verbose mode
