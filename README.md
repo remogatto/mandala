@@ -87,8 +87,8 @@ application on the device are simplified using a set of predefined
 * EGL
 * OpenGL ES 2
 * GLFW3
-* gotask
-* xdotool (to run the tests)
+* gotask (to run the tests)
+* xdotool (to run the tests on xorg)
 
 ## Android NDK
 
