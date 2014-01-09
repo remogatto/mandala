@@ -106,7 +106,7 @@ GOANDROID=$HOME/src/goandroid/go/bin
 And don't forget to add it to <tt>PATH</tt>:
 
 <pre>
-PATH = $PATH:$GOANDROID
+PATH=$PATH:$GOANDROID
 </pre>
 
 ## EGL/OpenGL ES 2
