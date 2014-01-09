@@ -103,7 +103,7 @@ After installing [Goandroid](https://github.com/eliasnaur/goandroid) you have to
 GOANDROID=$HOME/src/goandroid/go/bin
 </pre>
 
-And don't forget to add it to PATH:
+And don't forget to add it to <tt>PATH</tt>:
 
 <pre>
 PATH = $PATH:$GOANDROID
@@ -161,8 +161,7 @@ gotask run android # deploy and run on a connected device
 gotask run xorg    # run on a desktop window
 </pre>
 
-This will generate a simple Android application showing a colored
-triangle on the screen. See
+This will generate a simple Android application showing a red screen. See
 [gorgasm-template](https://github.com/remogatto/gorgasm-template) for
 furher info.
 
