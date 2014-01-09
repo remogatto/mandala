@@ -175,7 +175,7 @@ order to remove the dependency from <tt>testing</tt> (which in turn
 depends on <tt>flag</tt>). So basically, testing a native Android
 application is now possible using
 [PrettyTest](https://github.com/remogatto/prettytest) but we have to
-renounce to the benifits of <tt>testing</tt> (at least for now). See
+renounce to the benefits of <tt>testing</tt> (at least for now). See
 [test](test/) for further info about testing. To run the tests on your
 desktop window you need the <tt>xdotool</tt> (see the Prerequisites
 section)
