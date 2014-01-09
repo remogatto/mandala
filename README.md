@@ -8,7 +8,7 @@ through channels, without callbacks. The framework is not to be
 considered as an high-level game engine but as a basic layer onto
 which game engines can be build or existing ones can be used. In my
 opinion, this opens interesting scenarios in the developing of native
-Android applications/games in Go. Goandroid's [native_activity]
+Android applications/games in Go. Goandroid's [native_activity](https://github.com/eliasnaur/goandroid/tree/master/native-activity)
 example was the initial source of inspiration for this project.
 
 Please consider that Gorgasm is in a very early stage of development:
@@ -41,7 +41,7 @@ Have a nice Gorgasm!
 
 # How does it work?
 
-Gorgasm use [Goandroid](https://github.com/) toolchain to compile Go
+Gorgasm uses [Goandroid](https://github.com/) toolchain to compile Go
 applications for Android. The graphics abstraction between desktop and
 device is obtained using a bunch of technologies. In particular
 
