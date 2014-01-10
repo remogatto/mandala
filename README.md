@@ -148,7 +148,8 @@ To create a basic application simply clone the
 <tt>gorgasm-template</tt> repo and run a bunch of tasks:
 
 <pre>
-git clone https://github.com/remogatto/gorgasm-template myapp
+go get https://github.com/remogatto/gorgasm-template
+gorgasm-template myapp
 cd myapp
 gotask init MyApp
 gotask run android # deploy and run on a connected device
