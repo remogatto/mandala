@@ -1,14 +1,16 @@
 # What's that?
 
 Gorgasm is a framework for writing Android native applications in
-[Go](http://golang.org). You can develop, test and run your application on your desktop
-and then deploy it to an Android device. It encourages the use of
-idiomatic Go for writing Android applications: communication happens
-through channels, no callbacks. The framework is not to be
-considered as an high-level game engine but as a basic layer onto
-which game engines can be build or existing ones can be used. In my
-opinion, this opens interesting scenarios in the developing of native
-Android applications/games in Go. Goandroid's [native_activity](https://github.com/eliasnaur/goandroid/tree/master/native-activity)
+[Go](http://golang.org). You can develop, test and run your
+application on your desktop and then deploy it to an Android
+device. It encourages the use of idiomatic Go for writing Android
+applications: communication happens through channels, no
+callbacks. The framework is not to be considered as an high-level game
+engine but as a basic layer onto which game engines can be build or
+existing ones can be used. In my opinion, this opens interesting
+scenarios in the developing of native Android applications/games in
+Go. Goandroid's
+[native_activity](https://github.com/eliasnaur/goandroid/tree/master/native-activity)
 example was the initial source of inspiration for this project.
 
 Please consider that Gorgasm is in a very early stage of development:
@@ -98,9 +100,13 @@ See [here](http://developer.android.com/tools/sdk/ndk/index.html#Installing).
 
 See [here](https://github.com/eliasnaur/goandroid).
 
-After installing [Goandroid](https://github.com/eliasnaur/goandroid) you have to set a new environment variable <tt>GOANDROID</tt>. It should point to the Go <tt>bin</tt> folder of the Goandroid distribution. For example,
+After installing [Goandroid](https://github.com/eliasnaur/goandroid)
+you have to export a new environment variable <tt>GOANDROID</tt>. It
+should point to the Go <tt>bin</tt> folder of the Goandroid
+distribution. For example,
+
 <pre>
-GOANDROID=$HOME/src/goandroid/go/bin
+export GOANDROID=$HOME/src/goandroid/go/bin
 </pre>
 
 ## EGL/OpenGL ES 2
@@ -111,12 +117,27 @@ On a debian-like system:
 sudo apt-get install libgles2-mesa-dev libegl1-mesa-dev
 </pre>
 
+Then you should install the Go binding for EGL and OpenGL ES 2. This as simple
+as:
+
+<pre>
+go get github.com/remogatto/egl
+go get github.com/remogatto/opengles2
+</pre>
+
 ## GLFW3
 
-Install from source following the instruction [here](http://www.glfw.org/docs/latest/compile.html). Please note that
-you have to configure GLFW in order to use EGL and OpenGL ES 2. For further informations see [here](http://www.glfw.org/docs/latest/compile.html#compile_options_egl) and [here](http://www.glfw.org/docs/latest/compile.html#compile_options_shared). Be sure to build GLFW as a shared object!
+Install from source following the instruction
+[here](http://www.glfw.org/docs/latest/compile.html). Please note that
+you have to configure GLFW in order to use EGL and OpenGL ES 2. For
+further informations see
+[here](http://www.glfw.org/docs/latest/compile.html#compile_options_egl)
+and
+[here](http://www.glfw.org/docs/latest/compile.html#compile_options_shared). Be
+sure to build GLFW as a shared object!
 
-After installing GLFW3, in order to install the Go binding see [here](https://github.com/go-gl/glfw3). 
+After installing GLFW3, in order to install the Go binding see
+[here](https://github.com/go-gl/glfw3).
 
 ## gotask
 
@@ -137,25 +158,32 @@ sudo apt-get install xdotool
 Once you have satisfied all the prerequisites:
 
 <pre>
-go get https://github.com/remogatto/gorgasm
+go get github.com/remogatto/gorgasm
 </pre>
 
 This will install all the remaining dependencies.
 
 # Quick start
 
-To create a basic application simply clone the
-<tt>gorgasm-template</tt> repo and run a bunch of tasks:
+To create a basic application install <tt>gorgasm-template</tt>:
 
 <pre>
-git clone https://github.com/remogatto/gorgasm-template myapp
+go get github.com/remogatto/gorgasm-template
+</pre>
+
+Then, in a folder inside <tt>$GOPATH/src</tt> run the following
+commands:
+
+<pre>
+gorgasm-template myapp
 cd myapp
-gotask init MyApp
+gotask init
 gotask run android # deploy and run on a connected device
 gotask run xorg    # run on a desktop window
 </pre>
 
-This will generate a simple Android application showing a red screen. See
+This will generate a simple Android application showing a red
+screen. See
 [gorgasm-template](https://github.com/remogatto/gorgasm-template) for
 furher info.
 
@@ -176,10 +204,19 @@ section)
 
 # To do
 
+* Write a complete game using the framework
 * Sound support
 * More tests
-* Write a complete game
+
+# Credits
+
+* @jingweno for his cool build tool [gotask](https://github.com/jingweno/gotask)
+
+* @eliasnaur for his [Goandroid](https://github.com/jingweno/gotask),
+  the necessary condition for this work
+
+* @aded for patiently testing the pre-announcement release.
 
 # License
 
-See [LICENSE](LICENSE)
+See [LICENSE](LICENSE).
