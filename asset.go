@@ -11,7 +11,7 @@ import (
 
 func loadAsset(activity unsafe.Pointer, filename string) (io.ReadCloser, error) {
 	// Open the file.
-	file, err := os.Open(filepath.Join(AssetsPath, filename))
+	file, err := os.Open(filepath.Join(AssetPath, filename))
 	if err != nil {
 		return nil, err
 	}

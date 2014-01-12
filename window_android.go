@@ -3,9 +3,9 @@
 package gorgasm
 
 import (
+	"unsafe"
 	"github.com/remogatto/egl"
 	"github.com/remogatto/egl/platform"
-	"unsafe"
 )
 
 // #include <android/native_window.h>

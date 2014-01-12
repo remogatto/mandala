@@ -1,13 +1,14 @@
-# What's that?
+# Gorgasm [![GoDoc](https://godoc.org/github.com/remogatto/gorgasm?status.png)](http://godoc.org/github.com/remogatto/gorgasm)
 
 Gorgasm is a framework for writing Android native applications in
-[Go](http://golang.org). You can develop, test and run your
-application on your desktop and then deploy it to an Android
-device. It encourages the use of idiomatic Go for writing Android
-applications: communication happens through channels, no
-callbacks. The framework is not to be considered as an high-level game
-engine but as a basic layer onto which game engines can be build or
-existing ones can be used. In my opinion, this opens interesting
+[Go](http://golang.org) using the
+[Goandroid](https://github.com/eliasnaur/goandroid) toolchain. You can
+develop, test and run your application on your desktop and then deploy
+it to an Android device. It encourages the use of idiomatic Go for
+writing Android applications: communication happens through channels,
+no callbacks. The framework is not to be considered as an high-level
+game engine but as a basic layer onto which game engines can be build
+or existing ones can be used. In my opinion, this opens interesting
 scenarios in the developing of native Android applications/games in
 Go. Goandroid's
 [native_activity](https://github.com/eliasnaur/goandroid/tree/master/native-activity)
@@ -109,6 +110,14 @@ distribution. For example,
 export GOANDROID=$HOME/src/goandroid/go/bin
 </pre>
 
+Also note that on a 32 bit host machine, it would be necessary to generate the toolchain with:
+
+<pre>
+$NDK/build/tools/make-standalone-toolchain.sh --platform=android-9 --toolchain=arm-linux-androideabi-4.8 --install-dir=ndk-toolchain
+</pre>
+
+See [here](eliasnaur/goandroid#13) for further info about the issue.
+
 ## EGL/OpenGL ES 2
 
 On a debian-like system:
@@ -117,8 +126,8 @@ On a debian-like system:
 sudo apt-get install libgles2-mesa-dev libegl1-mesa-dev
 </pre>
 
-Then you should install the Go binding for EGL and OpenGL ES 2. This as simple
-as:
+Then you should install the Go bindings for EGL and OpenGL ES 2. This
+as simple as:
 
 <pre>
 go get github.com/remogatto/egl
@@ -141,9 +150,14 @@ After installing GLFW3, in order to install the Go binding see
 
 ## gotask
 
+For now let's use my fork:
+
 <pre>
-go get github.com/remogatto/gotask # I'm using my fork here until my changes go upstream
+go get github.com/remogatto/gotask
 </pre>
+
+Support for the official <tt>gotask</tt> will come as soon as this
+[PR](https://github.com/jingweno/gotask/pull/16) is resolved.
 
 ## xdotool
 
@@ -152,6 +166,8 @@ On a debian-like system:
 <pre>
 sudo apt-get install xdotool
 </pre>
+
+This is needed for black-box testing only.
 
 # Install
 
@@ -210,12 +226,14 @@ section)
 
 # Credits
 
-* @jingweno for his cool build tool [gotask](https://github.com/jingweno/gotask)
+* @jingweno for his cool build tool
+  [gotask](https://github.com/jingweno/gotask)
 
 * @eliasnaur for his [Goandroid](https://github.com/jingweno/gotask),
   the necessary condition for this work
 
-* @aded for patiently testing the pre-announcement release.
+* @aded for patiently testing the pre-announcement release on his
+  32bit broken machine.
 
 # License
 

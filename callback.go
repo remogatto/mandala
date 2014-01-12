@@ -38,6 +38,11 @@ func cursorPositionCallback(window *glfw.Window, x float64, y float64) {
 	}
 }
 
+// Init initializes a glfw.Window to be used in a xorg Gorgasm
+// application. It has to be called after the GLFW initialization
+// boilerplate. See
+// https://github.com/remogatto/gorgasm-examples/triangle/src/triangle/main.go
+// for an example.
 func Init(window *glfw.Window) {
 
 	glfw.SetErrorCallback(errorCallback)

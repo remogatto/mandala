@@ -10,7 +10,9 @@ import (
 )
 
 const (
-	BUFFERED_EVENTS_NUM = 10
+	// The number of event messages buffered by the event
+	// channel. This is an heuristic value.
+	NumOfBufferedEvents = 10
 )
 
 var (
@@ -52,6 +54,7 @@ func Debugf(format string, v ...interface{}) {
 	}
 }
 
+// Stacktrace returns the stacktrace of the goroutine that calls it.
 func Stacktrace() string {
 	// Write a stack trace
 	buf := make([]byte, 10000)
@@ -77,13 +80,17 @@ func AssetManager() chan<- interface{} {
 // Events() returns a receive-only channel from which client-code
 // receive events. Events are sent in the form of anonymous
 // interfaces. Please refer to events.go for a complete list of the
-// supported events.
+// supported events. For a worthwhile reading take a look a this
+// document by NVIDIA:
+//
+// http://developer.download.nvidia.com/assets/mobile/files/AndroidLifecycleAppNote_v100.pdf
+//
 func Events() <-chan interface{} {
 	return event
 }
 
 func init() {
-	event = make(chan interface{}, BUFFERED_EVENTS_NUM)
+	event = make(chan interface{}, NumOfBufferedEvents)
 	request = make(chan interface{})
 	activity = make(chan unsafe.Pointer, 1)
 
