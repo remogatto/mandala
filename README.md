@@ -83,6 +83,10 @@ The bothering steps needed to build, package and deploy the
 application on the device are simplified using a set of predefined
 [gotask](https://github.com/jingweno/gotask) tasks.
 
+# Examples
+
+Please visit [gorgasm-examples](https://github.com/remogatto/gorgasm-examples).
+
 # Prerequisites
 
 * Android NDK
