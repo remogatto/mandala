@@ -1,6 +1,6 @@
-# Gorgasm [![GoDoc](https://godoc.org/github.com/remogatto/gorgasm?status.png)](http://godoc.org/github.com/remogatto/gorgasm)
+# Mandala [![GoDoc](https://godoc.org/github.com/remogatto/mandala?status.png)](http://godoc.org/github.com/remogatto/mandala)
 
-Gorgasm is a framework for writing Android native applications in
+Mandala is a framework for writing Android native applications in
 [Go](http://golang.org) using the
 [Goandroid](https://github.com/eliasnaur/goandroid) toolchain. You can
 develop, test and run your application on your desktop and then deploy
@@ -14,14 +14,14 @@ Go. Goandroid's
 [native_activity](https://github.com/eliasnaur/goandroid/tree/master/native-activity)
 example was the initial source of inspiration for this project.
 
-Please consider that Gorgasm is in a very early stage of development:
+Please consider that Mandala is in a very early stage of development:
 API will change, test coverage is not so good for now. Last but not
 least, Go doesn't officially supports native Android
 development. Regarding this point, I hope that the present work could
 act as a sort of incentive in the direction of an official Android
 support by the Go Team.
 
-Have a nice Gorgasm!
+Have a nice Mandala!
 
 # Key features
 
@@ -44,7 +44,7 @@ Have a nice Gorgasm!
 
 # How does it work?
 
-Gorgasm uses [Goandroid](https://github.com/) toolchain to compile Go
+Mandala uses [Goandroid](https://github.com/) toolchain to compile Go
 applications for Android. The graphics abstraction between desktop and
 device is obtained using a bunch of technologies. In particular
 
@@ -67,7 +67,7 @@ build, run and test the application on the desktop with the promise
 that it will behave the same on the device once deployed. Oh well,
 this is the long-term aim, at least!
 
-A typical Gorgasm application has two loops: one continously listen to
+A typical Mandala application has two loops: one continously listen to
 events, the other is responsible for rendering the scene. In order to
 dealing with application resources (images, sounds, configuration
 files, etc.), the framework provides an AssetManager object. Client
@@ -85,7 +85,7 @@ application on the device are simplified using a set of predefined
 
 # Examples
 
-Please visit [gorgasm-examples](https://github.com/remogatto/gorgasm-examples).
+Please visit [mandala-examples](https://github.com/remogatto/mandala-examples).
 
 # Prerequisites
 
@@ -178,24 +178,24 @@ This is needed for black-box testing only.
 Once you have satisfied all the prerequisites:
 
 <pre>
-go get github.com/remogatto/gorgasm
+go get github.com/remogatto/mandala
 </pre>
 
 This will install all the remaining dependencies.
 
 # Quick start
 
-To create a basic application install <tt>gorgasm-template</tt>:
+To create a basic application install <tt>mandala-template</tt>:
 
 <pre>
-go get github.com/remogatto/gorgasm-template
+go get github.com/remogatto/mandala-template
 </pre>
 
 Then, in a folder inside <tt>$GOPATH/src</tt> run the following
 commands:
 
 <pre>
-gorgasm-template myapp
+mandala-template myapp
 cd myapp
 gotask init
 gotask run android # deploy and run on a connected device
@@ -204,7 +204,7 @@ gotask run xorg    # run on a desktop window
 
 This will generate a simple Android application showing a red
 screen. See
-[gorgasm-template](https://github.com/remogatto/gorgasm-template) for
+[mandala-template](https://github.com/remogatto/mandala-template) for
 furher info.
 
 # Testing

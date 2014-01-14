@@ -31,6 +31,11 @@ func Move(x1, y1, x2, y2 float32) error {
 		errbuf bytes.Buffer
 		outbuf bytes.Buffer
 	)
+
+	if x1 == x2 && y1 == y2 {
+		return nil
+	}
+
 	cmd := exec.Command(
 		`/system/bin/sh`,
 		`-c`,

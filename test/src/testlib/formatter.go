@@ -3,7 +3,7 @@
 package testlib
 
 import (
-	"github.com/remogatto/gorgasm"
+	"github.com/remogatto/mandala"
 	"github.com/remogatto/prettytest"
 	"log"
 	"path/filepath"
@@ -51,7 +51,7 @@ type TDDFormatter struct {
 
 func NewTDDFormatter() *TDDFormatter {
 	return &TDDFormatter{
-		log: log.New(gorgasm.AndroidWriter{}, "[gorgasm-test] ", 0),
+		log: log.New(mandala.AndroidWriter{}, "[mandala-test] ", 0),
 	}
 }
 

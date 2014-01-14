@@ -5,8 +5,8 @@ package main
 import (
 	"runtime"
 
-	"github.com/remogatto/gorgasm"
-	"github.com/remogatto/gorgasm/test/src/testlib"
+	"github.com/remogatto/mandala"
+	"github.com/remogatto/mandala/test/src/testlib"
 	"github.com/remogatto/prettytest"
 )
 
@@ -19,7 +19,7 @@ var t T
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
-	gorgasm.Verbose = true
+	mandala.Verbose = true
 
 	go prettytest.RunWithFormatter(
 		t,

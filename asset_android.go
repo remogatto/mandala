@@ -1,6 +1,6 @@
 // +build android
 
-package gorgasm
+package mandala
 
 import (
 	"archive/zip"

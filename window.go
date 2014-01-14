@@ -1,4 +1,4 @@
-package gorgasm
+package mandala
 
 // Window is an interface that abstracts native EGL surfaces.
 type Window interface {

@@ -1,6 +1,6 @@
 // +build android
 
-package gorgasm
+package mandala
 
 // #include <android/native_activity.h>
 // #include <android/input.h>

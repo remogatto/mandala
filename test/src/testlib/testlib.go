@@ -5,12 +5,11 @@ import (
 	"image"
 	"image/png"
 	"log"
-	"os"
 	"runtime"
 	"time"
 
 	"git.tideland.biz/goas/loop"
-	"github.com/remogatto/gorgasm"
+	"github.com/remogatto/mandala"
 	gl "github.com/remogatto/opengles2"
 	"github.com/remogatto/prettytest"
 )
@@ -18,21 +17,23 @@ import (
 const (
 	FRAMES_PER_SECOND = 15
 	GOPHER_PNG        = "res/drawable/gopher.png"
+	TIMEOUT           = time.Second * 15
 )
 
 type TestSuite struct {
 	prettytest.Suite
+
 	rlControl        *renderLoopControl
 	creationSequence []string
 	exitSequence     []string
 	moving           bool
-
-	resetActionMove chan int
+	resetActionMove  chan int
+	timeout          <-chan time.Time
 
 	testDraw         chan bool
 	testPause        chan bool
-	testActionUpDown chan gorgasm.ActionUpDownEvent
-	testActionMove   chan gorgasm.ActionMoveEvent
+	testActionUpDown chan mandala.ActionUpDownEvent
+	testActionMove   chan mandala.ActionMoveEvent
 }
 
 var (
@@ -75,11 +76,11 @@ type renderLoopControl struct {
 	resizeViewport chan viewportSize
 	pause          chan bool
 	resume         chan bool
-	window         chan gorgasm.Window
+	window         chan mandala.Window
 }
 
 type renderState struct {
-	window gorgasm.Window
+	window mandala.Window
 }
 
 func checkShaderCompileStatus(shader uint32) {
@@ -132,7 +133,7 @@ func Program(fsh, vsh uint32) uint32 {
 	return p
 }
 
-func (renderState *renderState) init(window gorgasm.Window) {
+func (renderState *renderState) init(window mandala.Window) {
 	window.MakeContextCurrent()
 
 	renderState.window = window
@@ -215,7 +216,7 @@ func newRenderLoopControl() *renderLoopControl {
 		make(chan viewportSize),
 		make(chan bool),
 		make(chan bool),
-		make(chan gorgasm.Window),
+		make(chan mandala.Window),
 	}
 }
 
@@ -279,52 +280,48 @@ func (t *TestSuite) eventLoopFunc(renderLoopControl *renderLoopControl) loop.Loo
 			select {
 
 			case c := <-t.resetActionMove:
-				t.testActionMove = make(chan gorgasm.ActionMoveEvent, c)
+				t.testActionMove = make(chan mandala.ActionMoveEvent, c)
 				t.moving = true
 				t.resetActionMove <- 0
 
 			// Receive events from the framework.
-			case untypedEvent := <-gorgasm.Events():
+			case untypedEvent := <-mandala.Events():
 
 				switch event := untypedEvent.(type) {
 
-				case gorgasm.CreateEvent:
+				case mandala.CreateEvent:
 					t.creationSequence = append(t.creationSequence, "onCreate")
 
-				case gorgasm.StartEvent:
+				case mandala.StartEvent:
 					t.creationSequence = append(t.creationSequence, "onStart")
 
-				case gorgasm.NativeWindowCreatedEvent:
+				case mandala.NativeWindowCreatedEvent:
 					renderLoopControl.window <- event.Window
 
 					// Finger down/up on the screen.
-				case gorgasm.ActionUpDownEvent:
+				case mandala.ActionUpDownEvent:
 					if !t.moving {
 						t.testActionUpDown <- event
 					}
 
 					// Finger is moving on the screen.
-				case gorgasm.ActionMoveEvent:
+				case mandala.ActionMoveEvent:
 					if t.moving {
 						t.testActionMove <- event
 					}
 
-				case gorgasm.NativeWindowDestroyedEvent:
-					gorgasm.Debugf("Window destroyed")
+				case mandala.NativeWindowDestroyedEvent:
+					mandala.Debugf("Window destroyed")
 
-				case gorgasm.DestroyEvent:
+				case mandala.DestroyEvent:
 					// return nil
 
-				case gorgasm.NativeWindowRedrawNeededEvent:
-					gorgasm.Debugf("Redraw needed")
+				case mandala.NativeWindowRedrawNeededEvent:
+					mandala.Debugf("Redraw needed")
 
-				case gorgasm.PauseEvent:
-					gorgasm.Debugf("exitSequence: %v", t.exitSequence)
-					// renderLoopControl.pause <- true
-					// t.exitSequence = append(t.exitSequence, "onPause")
-					// t.testPause <- true
+				case mandala.PauseEvent:
 
-				case gorgasm.ResumeEvent:
+				case mandala.ResumeEvent:
 					t.creationSequence = append(t.creationSequence, "onResume")
 
 				}
@@ -333,10 +330,20 @@ func (t *TestSuite) eventLoopFunc(renderLoopControl *renderLoopControl) loop.Loo
 	}
 }
 
+func (t *TestSuite) timeoutLoopFunc() loop.LoopFunc {
+	return func(loop loop.Loop) error {
+		time := <-t.timeout
+		err := fmt.Errorf("Tests timed out after %v", time)
+		mandala.Logf("%s %s", err.Error(), mandala.Stacktrace())
+		t.Error(err)
+		return nil
+	}
+}
+
 func check() {
 	error := gl.GetError()
 	if error != 0 {
-		gorgasm.Logf("An error occurred! Code: 0x%x", error)
+		mandala.Logf("An error occurred! Code: 0x%x", error)
 	}
 }
 
@@ -344,11 +351,11 @@ func loadImage(filename string) (image.Image, error) {
 	// Request an asset to the asset manager. When the app runs on
 	// an Android device, the apk will be unpacked and the file
 	// will be read from it and copied to a byte buffer.
-	request := gorgasm.LoadAssetRequest{
+	request := mandala.LoadAssetRequest{
 		filename,
-		make(chan gorgasm.LoadAssetResponse),
+		make(chan mandala.LoadAssetResponse),
 	}
-	gorgasm.AssetManager() <- request
+	mandala.AssetManager() <- request
 	response := <-request.Response
 
 	if response.Error != nil {
@@ -364,9 +371,6 @@ func loadImage(filename string) (image.Image, error) {
 }
 
 func (t *TestSuite) BeforeAll() {
-	gorgasm.Verbose = true
-	gorgasm.Debug = true
-
 	// Create rendering loop control channels
 	t.rlControl = newRenderLoopControl()
 	// Start the rendering loop
@@ -374,8 +378,8 @@ func (t *TestSuite) BeforeAll() {
 		t.renderLoopFunc(t.rlControl),
 		func(rs loop.Recoverings) (loop.Recoverings, error) {
 			for _, r := range rs {
-				gorgasm.Logf("%s", r.Reason)
-				gorgasm.Logf("%s", gorgasm.Stacktrace())
+				mandala.Logf("%s", r.Reason)
+				mandala.Logf("%s", mandala.Stacktrace())
 			}
 			return rs, fmt.Errorf("Unrecoverable loop\n")
 		},
@@ -385,8 +389,20 @@ func (t *TestSuite) BeforeAll() {
 		t.eventLoopFunc(t.rlControl),
 		func(rs loop.Recoverings) (loop.Recoverings, error) {
 			for _, r := range rs {
-				gorgasm.Logf("%s", r.Reason)
-				gorgasm.Logf("%s", gorgasm.Stacktrace())
+				mandala.Logf("%s", r.Reason)
+				mandala.Logf("%s", mandala.Stacktrace())
+			}
+			return rs, fmt.Errorf("Unrecoverable loop\n")
+		},
+	)
+
+	// Start the timeout loop
+	loop.GoRecoverable(
+		t.timeoutLoopFunc(),
+		func(rs loop.Recoverings) (loop.Recoverings, error) {
+			for _, r := range rs {
+				mandala.Logf("%s", r.Reason)
+				mandala.Logf("%s", mandala.Stacktrace())
 			}
 			return rs, fmt.Errorf("Unrecoverable loop\n")
 		},
@@ -395,7 +411,7 @@ func (t *TestSuite) BeforeAll() {
 }
 
 func (t *TestSuite) AfterAll() {
-	os.Exit(0)
+	// os.Exit(0)
 }
 
 func NewTestSuite() *TestSuite {
@@ -404,6 +420,7 @@ func NewTestSuite() *TestSuite {
 		resetActionMove:  make(chan int),
 		testDraw:         make(chan bool),
 		testPause:        make(chan bool),
-		testActionUpDown: make(chan gorgasm.ActionUpDownEvent),
+		testActionUpDown: make(chan mandala.ActionUpDownEvent),
+		timeout:          time.After(TIMEOUT),
 	}
 }

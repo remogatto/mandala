@@ -1,6 +1,6 @@
 // +build android
 
-package gorgasm
+package mandala
 
 // #include <android/log.h>
 // #cgo LDFLAGS: -llog
@@ -12,7 +12,7 @@ import (
 	"unsafe"
 )
 
-var ctag *C.char = C.CString("Gorgasm")
+var ctag *C.char = C.CString("Mandala")
 
 func init() {
 	log.SetOutput(AndroidWriter{})

@@ -28,7 +28,7 @@ var (
 	AndroidPath = "android"
 
 	// Logcat argument
-	Logcat = "Gorgasm:* stdout:* stderr:* *:S"
+	Logcat = "Mandala:* stdout:* stderr:* *:S"
 
 	buildFun = map[string]func(*tasking.T){
 		"xorg":    buildXorg,
@@ -219,13 +219,13 @@ func runAndroid(t *tasking.T) {
 	deployAndroid(t)
 	err := t.Exec(
 		fmt.Sprintf(
-			"adb shell am start -a android.intent.action.MAIN -n net.gorgasm.%s/android.app.NativeActivity",
+			"adb shell am start -a android.intent.action.MAIN -n net.mandala.%s/android.app.NativeActivity",
 			ProjectName,
 		))
 	if err != nil {
 		t.Error(err)
 	}
-	err = t.Exec("adb shell logcat", "Gorgasm:* stdout:* stderr:* *:S")
+	err = t.Exec("adb shell logcat", "Mandala:* stdout:* stderr:* *:S")
 	if err != nil {
 		t.Error(err)
 	}

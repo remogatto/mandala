@@ -1,4 +1,4 @@
-package gorgasm
+package mandala
 
 import (
 	"unsafe"
