@@ -58,8 +58,8 @@ func (t *TestSuite) TestActionMove() {
 	close(t.testActionMove)
 
 	for event := range t.testActionMove {
-		t.True(event.X != 0.0)
-		t.True(event.Y != 0.0)
+		t.True(event.X > 0.0)
+		t.True(event.Y > 0.0)
 	}
 
 	t.moving = false
