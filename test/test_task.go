@@ -51,13 +51,14 @@ var (
 //    Build the tests for the given platforms (xorg/android).
 //
 // OPTIONS
-//    --buildflags=
+//    --flags=FLAGS
 //        pass the given flags to the compiler
 //    --verbose, -v
 //        run in verbose mode
 func TaskBuild(t *tasking.T) {
 	if len(t.Args) == 0 {
 		t.Error("At least a platform name must be specified!")
+		return
 	}
 	if f, ok := buildFun[t.Args[0]]; ok {
 		f(t)
@@ -75,7 +76,7 @@ func TaskBuild(t *tasking.T) {
 //    Build and run the tests on the given platform returning output using logcat.
 //
 // OPTIONS
-//    --flags=
+//    --flags=FLAGS
 //        pass the given flags to the executable
 //    --verbose, -v
 //        run in verbose mode
@@ -157,7 +158,7 @@ func buildXorg(t *tasking.T) {
 	err := t.Exec(
 		`sh -c "`,
 		"GOPATH=`pwd`:$GOPATH",
-		`go install`, t.Flags.String("buildflags"),
+		`go install`, t.Flags.String("flags"),
 		ProjectName, `"`,
 	)
 	if err != nil {
@@ -177,7 +178,7 @@ func buildAndroid(t *tasking.T) {
 		"GOARCH=arm",
 		"GOARM=7",
 		"CGO_ENABLED=1",
-		"$GOANDROID/go install", t.Flags.String("buildflags"),
+		"$GOANDROID/go install", t.Flags.String("flags"),
 		"$GOFLAGS",
 		`-ldflags=\"-android -shared -extld $NDK_ROOT/bin/arm-linux-androideabi-gcc -extldflags '-march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16'\"`,
 		"-tags android",

@@ -1,4 +1,5 @@
-# Mandala [![GoDoc](https://godoc.org/github.com/remogatto/mandala?status.png)](http://godoc.org/github.com/remogatto/mandala)
+# Mandala
+  [![GoDoc](https://godoc.org/github.com/remogatto/mandala?status.png)](http://godoc.org/github.com/remogatto/mandala)
 
 Mandala is a framework for writing Android native applications in
 [Go](http://golang.org) using the
@@ -154,14 +155,9 @@ After installing GLFW3, in order to install the Go binding see
 
 ## gotask
 
-For now let's use my fork:
-
 <pre>
-go get github.com/remogatto/gotask
+go get github.com/jingweno/gotask
 </pre>
-
-Support for the official <tt>gotask</tt> will come as soon as this
-[PR](https://github.com/jingweno/gotask/pull/16) is resolved.
 
 ## xdotool
 
