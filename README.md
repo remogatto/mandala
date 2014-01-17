@@ -45,7 +45,7 @@ Have a nice Mandala!
 
 # How does it work?
 
-Mandala uses [Goandroid](https://github.com/) toolchain to compile Go
+Mandala uses [Goandroid](https://github.com/eliasnaur/goandroid) toolchain to compile Go
 applications for Android. The graphics abstraction between desktop and
 device is obtained using a bunch of technologies. In particular
 
