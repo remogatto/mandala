@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"image"
 	"image/png"
-	"io"
 	"log"
 	"runtime"
 	"time"
@@ -354,14 +353,15 @@ func loadImage(filename string) (image.Image, error) {
 	// will be read from it and copied to a byte buffer.
 	request := mandala.LoadAssetRequest{
 		Filename: "res/drawable/gopher.png",
-		Buffer:   make(chan io.Reader),
+		Response: make(chan mandala.LoadAssetResponse),
 	}
 
 	mandala.AssetManager() <- request
-	buffer := <-request.Buffer
+	response := <-request.Response
+	buffer := response.Buffer
 
-	if request.Error != nil {
-		return nil, request.Error
+	if response.Error != nil {
+		return nil, response.Error
 	}
 
 	// Decode the image.

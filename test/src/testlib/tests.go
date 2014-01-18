@@ -3,25 +3,40 @@ package testlib
 import (
 	"fmt"
 	"image/png"
-	"io"
 
 	"github.com/remogatto/mandala"
 )
 
 func (t *TestSuite) TestAssetManagerLoadResponse() {
+
 	request := mandala.LoadAssetRequest{
 		Filename: "res/drawable/gopher.png",
-		Buffer:   make(chan io.Reader),
+		Response: make(chan mandala.LoadAssetResponse),
 	}
 
 	mandala.AssetManager() <- request
 
-	buffer := <-request.Buffer
+	response := <-request.Response
+	buffer := response.Buffer
 
-	t.True(request.Error == nil, "An error occured during resource opening")
+	t.True(response.Error == nil, "An error occured during resource opening")
 
 	_, err := png.Decode(buffer)
 	t.True(err == nil, "An error occured during png decoding")
+
+	// Load a non existent resource
+	request = mandala.LoadAssetRequest{
+		Filename: "res/doesntexist",
+		Response: make(chan mandala.LoadAssetResponse),
+	}
+
+	mandala.AssetManager() <- request
+
+	response = <-request.Response
+	buffer = response.Buffer
+
+	t.True(buffer == nil)
+	t.True(response.Error != nil)
 }
 
 func (t *TestSuite) TestBasicCreationSequence() {
