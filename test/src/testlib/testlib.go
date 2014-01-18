@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"image"
 	"image/png"
+	"io"
 	"log"
 	"runtime"
 	"time"
@@ -352,18 +353,19 @@ func loadImage(filename string) (image.Image, error) {
 	// an Android device, the apk will be unpacked and the file
 	// will be read from it and copied to a byte buffer.
 	request := mandala.LoadAssetRequest{
-		filename,
-		make(chan mandala.LoadAssetResponse),
+		Filename: "res/drawable/gopher.png",
+		Buffer:   make(chan io.Reader),
 	}
-	mandala.AssetManager() <- request
-	response := <-request.Response
 
-	if response.Error != nil {
-		return nil, response.Error
+	mandala.AssetManager() <- request
+	buffer := <-request.Buffer
+
+	if request.Error != nil {
+		return nil, request.Error
 	}
 
 	// Decode the image.
-	img, err := png.Decode(response.Buffer)
+	img, err := png.Decode(buffer)
 	if err != nil {
 		return nil, err
 	}

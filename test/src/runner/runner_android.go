@@ -23,7 +23,7 @@ func main() {
 
 	go prettytest.RunWithFormatter(
 		t,
-		testlib.NewTDDFormatter(),
+		new(testlib.TDDFormatter),
 		testlib.NewTestSuite(),
 	)
 }
