@@ -16,10 +16,13 @@ type window struct {
 	eglState *platform.EGLState
 }
 
+// SwapBuffers swaps the surface with the display actually showing the
+// result of rendering.
 func (win *window) SwapBuffers() {
 	egl.SwapBuffers(win.eglState.Display, win.eglState.Surface)
 }
 
+// MakeContextCurrent bind the OpenGL context to the current thread.
 func (win *window) MakeContextCurrent() {
 	if ok := egl.MakeCurrent(
 		win.eglState.Display,
@@ -30,6 +33,7 @@ func (win *window) MakeContextCurrent() {
 	}
 }
 
+// GetSize returns the dimension of the rendering surface.
 func (win *window) GetSize() (int, int) {
 	return win.eglState.SurfaceWidth, win.eglState.SurfaceHeight
 }
