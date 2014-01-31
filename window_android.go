@@ -35,6 +35,8 @@ func (win *window) MakeContextCurrent() {
 
 // GetSize returns the dimension of the rendering surface.
 func (win *window) GetSize() (int, int) {
+	win.eglState.SurfaceWidth = int(C.ANativeWindow_getWidth((*C.ANativeWindow)(win.window)))
+	win.eglState.SurfaceHeight = int(C.ANativeWindow_getHeight((*C.ANativeWindow)(win.window)))
 	return win.eglState.SurfaceWidth, win.eglState.SurfaceHeight
 }
 

@@ -74,9 +74,11 @@ func onNativeWindowRedrawNeeded(act *C.ANativeActivity, win unsafe.Pointer) {
 	defer func() {
 		handleCallbackError(act, recover())
 	}()
+	state := getState(act)
+	state.window.resize(win)
 	event <- NativeWindowRedrawNeededEvent{
 		unsafe.Pointer(act),
-		getState(act).window,
+		state.window,
 	}
 	Debugf("onNativeRedrawNeeded\n")
 }

@@ -2,10 +2,39 @@ package testlib
 
 import (
 	"fmt"
+	"image"
 	"image/png"
+	"path/filepath"
 
+	"github.com/remogatto/imagetest"
 	"github.com/remogatto/mandala"
 )
+
+const (
+	distanceThreshold = 0.02
+)
+
+// Compare the result of rendering against the saved expected image.
+func testImage(filename string, act image.Image) (float64, image.Image, image.Image, error) {
+	request := mandala.LoadAssetRequest{
+		Filename: filepath.Join(expectedImgPath, filename),
+		Response: make(chan mandala.LoadAssetResponse),
+	}
+
+	mandala.AssetManager() <- request
+	response := <-request.Response
+	buffer := response.Buffer
+
+	if response.Error != nil {
+		return 1, nil, nil, response.Error
+	}
+
+	exp, err := png.Decode(buffer)
+	if err != nil {
+		return 1, nil, nil, err
+	}
+	return imagetest.CompareDistance(exp, act, imagetest.Scale), exp, act, nil
+}
 
 func (t *TestSuite) TestAssetManagerLoadResponse() {
 
@@ -103,7 +132,12 @@ func (t *TestSuite) TestActionMove() {
 }
 
 func (t *TestSuite) TestDraw() {
-	t.True(<-t.testDraw)
+	filename := GOPHER_PNG
+	distance, _, _, err := testImage(filename, <-t.testDraw)
+	if err != nil {
+		mandala.Fatalf(err.Error())
+	}
+	t.True(distance < distanceThreshold, fmt.Sprintf("Image differs by distance %f", distance))
 }
 
 // func (t *TestSuite) TestBasicExitSequence() {

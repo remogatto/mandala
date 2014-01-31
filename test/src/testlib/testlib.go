@@ -16,8 +16,9 @@ import (
 
 const (
 	FRAMES_PER_SECOND = 15
-	GOPHER_PNG        = "res/drawable/gopher.png"
-	TIMEOUT           = time.Second * 15
+	GOPHER_PNG        = "gopher.png"
+	TIMEOUT           = time.Second * 30
+	expectedImgPath   = "res/drawable"
 )
 
 type TestSuite struct {
@@ -30,7 +31,7 @@ type TestSuite struct {
 	resetActionMove  chan int
 	timeout          <-chan time.Time
 
-	testDraw         chan bool
+	testDraw         chan image.Image
 	testPause        chan bool
 	testActionUpDown chan mandala.ActionUpDownEvent
 	testActionMove   chan mandala.ActionMoveEvent
@@ -38,7 +39,6 @@ type TestSuite struct {
 
 var (
 	Width, Height                   int = 320, 480
-	verticesArrayBuffer             uint32
 	textureBuffer                   uint32
 	unifTexture, attrPos, attrTexIn uint32
 	currWidth, currHeight           int
@@ -156,12 +156,6 @@ func (renderState *renderState) init(window mandala.Window) {
 	gl.EnableVertexAttribArray(attrTexIn)
 	check()
 
-	// Upload vertices data
-	gl.GenBuffers(1, &verticesArrayBuffer)
-	gl.BindBuffer(gl.ARRAY_BUFFER, verticesArrayBuffer)
-	gl.BufferData(gl.ARRAY_BUFFER, gl.SizeiPtr(len(vertices))*4, gl.Void(&vertices[0]), gl.STATIC_DRAW)
-	check()
-
 	// Upload texture data
 	img, err := loadImage(GOPHER_PNG)
 	if err != nil {
@@ -195,12 +189,9 @@ func (renderState *renderState) init(window mandala.Window) {
 
 func (renderState *renderState) draw() {
 	gl.Clear(gl.COLOR_BUFFER_BIT)
-	gl.BindBuffer(gl.ARRAY_BUFFER, verticesArrayBuffer)
-	gl.VertexAttribPointer(attrPos, 4, gl.FLOAT, false, 6*4, 0)
 
-	// bind texture - FIX size of vertex
-
-	gl.VertexAttribPointer(attrTexIn, 2, gl.FLOAT, false, 6*4, 4*4)
+	gl.VertexAttribPointer(attrPos, 4, gl.FLOAT, false, 6*4, &vertices[0])
+	gl.VertexAttribPointer(attrTexIn, 2, gl.FLOAT, false, 6*4, &vertices[4])
 
 	gl.ActiveTexture(gl.TEXTURE0)
 	gl.BindTexture(gl.TEXTURE_2D, textureBuffer)
@@ -251,8 +242,8 @@ func (t *TestSuite) renderLoopFunc(control *renderLoopControl) loop.LoopFunc {
 			// At each tick render a frame and swap buffers.
 			case <-ticker.C:
 				renderState.draw()
+				t.testDraw <- Screenshot(renderState.window)
 				renderState.window.SwapBuffers()
-				t.testDraw <- true
 
 			case <-control.resizeViewport:
 
@@ -420,7 +411,7 @@ func NewTestSuite() *TestSuite {
 	return &TestSuite{
 		rlControl:        newRenderLoopControl(),
 		resetActionMove:  make(chan int),
-		testDraw:         make(chan bool),
+		testDraw:         make(chan image.Image),
 		testPause:        make(chan bool),
 		testActionUpDown: make(chan mandala.ActionUpDownEvent),
 		timeout:          time.After(TIMEOUT),
