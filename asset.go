@@ -3,17 +3,16 @@
 package mandala
 
 import (
-	"io"
-	"os"
+	"io/ioutil"
 	"path/filepath"
 	"unsafe"
 )
 
-func loadAsset(activity unsafe.Pointer, filename string) (io.ReadCloser, error) {
+func loadAsset(activity unsafe.Pointer, filename string) ([]byte, error) {
 	// Open the file.
-	file, err := os.Open(filepath.Join(AssetPath, filename))
+	buf, err := ioutil.ReadFile(filepath.Join(AssetPath, filename))
 	if err != nil {
 		return nil, err
 	}
-	return file, nil
+	return buf, nil
 }

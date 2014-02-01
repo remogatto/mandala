@@ -1,6 +1,7 @@
 package testlib
 
 import (
+	"bytes"
 	"fmt"
 	"image"
 	"image/png"
@@ -29,7 +30,7 @@ func testImage(filename string, act image.Image) (float64, image.Image, image.Im
 		return 1, nil, nil, response.Error
 	}
 
-	exp, err := png.Decode(buffer)
+	exp, err := png.Decode(bytes.NewBuffer(buffer))
 	if err != nil {
 		return 1, nil, nil, err
 	}
@@ -50,7 +51,7 @@ func (t *TestSuite) TestAssetManagerLoadResponse() {
 
 	t.True(response.Error == nil, "An error occured during resource opening")
 
-	_, err := png.Decode(buffer)
+	_, err := png.Decode(bytes.NewBuffer(buffer))
 	t.True(err == nil, "An error occured during png decoding")
 
 	// Load a non existent resource

@@ -4,7 +4,6 @@ package mandala
 
 import (
 	"archive/zip"
-	"bytes"
 	"fmt"
 	"io"
 	"unsafe"
@@ -14,7 +13,7 @@ import (
 // #include "asset_android.h"
 import "C"
 
-func loadAsset(activity unsafe.Pointer, filename string) (io.Reader, error) {
+func loadAsset(activity unsafe.Pointer, filename string) ([]byte, error) {
 	apkPath := C.GoString(C.getPackageName((*C.ANativeActivity)(activity)))
 
 	// Open a zip archive for reading.
@@ -37,7 +36,7 @@ func loadAsset(activity unsafe.Pointer, filename string) (io.Reader, error) {
 				return nil, err
 			}
 			rc.Close()
-			return bytes.NewBuffer(buffer), nil
+			return buffer, nil
 		}
 	}
 	return nil, fmt.Errorf("Resource not found!")

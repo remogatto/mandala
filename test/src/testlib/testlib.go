@@ -1,6 +1,7 @@
 package testlib
 
 import (
+	"bytes"
 	"fmt"
 	"image"
 	"image/png"
@@ -356,7 +357,7 @@ func loadImage(filename string) (image.Image, error) {
 	}
 
 	// Decode the image.
-	img, err := png.Decode(buffer)
+	img, err := png.Decode(bytes.NewBuffer(buffer))
 	if err != nil {
 		return nil, err
 	}
