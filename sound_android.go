@@ -28,11 +28,18 @@ type AudioPlayer struct {
 	stopCh      chan apStopRequest
 }
 
+func jniBool(value C.jboolean) bool {
+	if value == C.JNI_TRUE {
+		return true
+	}
+	return false
+}
+
 func initSound() {
 	C.createEngine(nil, nil)
 }
 
-func newAudioPlayer(activity *C.ANativeActivity, filename string) *AudioPlayer {
+func newAudioPlayer(activity *C.ANativeActivity, filename string) (*AudioPlayer, error) {
 	ap := new(AudioPlayer)
 	ap.filename = filename
 	ap.assetPlayer = new(assetPlayer)
@@ -40,11 +47,15 @@ func newAudioPlayer(activity *C.ANativeActivity, filename string) *AudioPlayer {
 	cstring := C.CString(filename)
 	defer C.free(unsafe.Pointer(cstring))
 
-	C.createAssetAudioPlayer(
+	cresult := C.createAssetAudioPlayer(
 		activity,
 		(*C.t_asset_ap)(ap.assetPlayer),
 		cstring,
 	)
+
+	if !jniBool(cresult) {
+		return nil, fmt.Errorf("An error occured trying to create an audio player from asset")
+	}
 
 	ap.playCh = make(chan apPlayRequest)
 	ap.stopCh = make(chan apStopRequest)
@@ -60,7 +71,7 @@ func newAudioPlayer(activity *C.ANativeActivity, filename string) *AudioPlayer {
 		},
 	)
 
-	return ap
+	return ap, nil
 }
 
 func (ap *AudioPlayer) requestLoopFunc() loop.LoopFunc {
@@ -97,7 +108,9 @@ func androidSoundLoopFunc(activity *C.ANativeActivity, event chan interface{}) l
 			case untypedEvent := <-event:
 				switch event := untypedEvent.(type) {
 				case apCreateRequest:
-					event.apCh <- newAudioPlayer(activity, event.filename)
+					response := apCreateResponse{}
+					response.ap, response.err = newAudioPlayer(activity, event.filename)
+					event.responseCh <- response
 				}
 			}
 		}

@@ -142,13 +142,20 @@ func (t *TestSuite) TestDraw() {
 }
 
 func (t *TestSuite) TestAudio() {
-	player := mandala.CreateAudioPlayer("background.mp3")
-	t.True(player != nil)
+	player, err := mandala.CreateAudioPlayer("notfound.ogg")
+	t.True(player == nil)
+	t.True(err != nil)
 
-	done := make(chan bool)
-	player.Play(done)
-	<-done
-	player.Stop()
+	player, err = mandala.CreateAudioPlayer("deitzis.ogg")
+	t.True(player != nil)
+	t.True(err == nil)
+
+	if player != nil {
+		done := make(chan bool)
+		player.Play(done)
+		<-done
+		player.Stop()
+	}
 }
 
 func (t *TestSuite) TestBasicExitSequence() {

@@ -2,9 +2,14 @@
 
 package mandala
 
+type apCreateResponse struct {
+	ap  *AudioPlayer
+	err error
+}
+
 type apCreateRequest struct {
-	filename string
-	apCh     chan *AudioPlayer
+	filename   string
+	responseCh chan apCreateResponse
 }
 
 type apPlayRequest struct {
@@ -31,8 +36,12 @@ func (ap *AudioPlayer) Stop() {
 }
 
 // CreateAudioPlayer instantiates a player for the given filename.
-func CreateAudioPlayer(filename string) *AudioPlayer {
-	audioPlayerCh := make(chan *AudioPlayer)
-	soundCh <- apCreateRequest{filename, audioPlayerCh}
-	return <-audioPlayerCh
+func CreateAudioPlayer(filename string) (*AudioPlayer, error) {
+	responseCh := make(chan apCreateResponse)
+	soundCh <- apCreateRequest{filename, responseCh}
+	response := <-responseCh
+	if response.err != nil {
+		return nil, response.err
+	}
+	return response.ap, nil
 }
