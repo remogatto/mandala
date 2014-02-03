@@ -116,6 +116,7 @@ func onCreate(act *C.ANativeActivity, savedState unsafe.Pointer, savedStateSize 
 	defer func() {
 		handleCallbackError(act, recover())
 	}()
+
 	internalEvent = make(chan interface{})
 	looperCh := make(chan *C.ALooper)
 
@@ -123,6 +124,19 @@ func onCreate(act *C.ANativeActivity, savedState unsafe.Pointer, savedStateSize 
 	// states global map.
 	setState(act, &state{act, nil})
 
+	// Initialize the native sound library
+	loop.GoRecoverable(
+		androidSoundLoopFunc(act, soundCh),
+		func(rs loop.Recoverings) (loop.Recoverings, error) {
+			for _, r := range rs {
+				Logf("%s", r.Reason)
+				Logf("%s", Stacktrace())
+			}
+			return rs, fmt.Errorf("Unrecoverable loop\n")
+		},
+	)
+
+	// Initialize the native event loop
 	loop.GoRecoverable(
 		androidEventLoopFunc(internalEvent, looperCh),
 		func(rs loop.Recoverings) (loop.Recoverings, error) {
