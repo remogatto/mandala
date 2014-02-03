@@ -30,6 +30,10 @@ var (
 	// events should be sent to this channel.
 	event chan interface{}
 
+	// Internal requests to the sound engine are sent to this
+	// channel.
+	soundCh chan interface{}
+
 	// The current activity pointer is sent to this channel when
 	// an onCreate event is triggered by Android.
 	activity chan unsafe.Pointer
@@ -93,6 +97,7 @@ func init() {
 	event = make(chan interface{}, NumOfBufferedEvents)
 	request = make(chan interface{})
 	activity = make(chan unsafe.Pointer, 1)
+	soundCh = make(chan interface{})
 
 	loop.GoRecoverable(
 		assetLoopFunc(activity, request),

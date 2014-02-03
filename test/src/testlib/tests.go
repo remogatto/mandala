@@ -141,20 +141,16 @@ func (t *TestSuite) TestDraw() {
 	t.True(distance < distanceThreshold, fmt.Sprintf("Image differs by distance %f", distance))
 }
 
-// func (t *TestSuite) TestBasicExitSequence() {
-// 	if err := Back(); err != nil {
-// 		panic(err)
-// 	}
-// 	<-t.testPause
-// 	exp := []string{"onPause"}
+func (t *TestSuite) TestAudio() {
+	player := mandala.CreateAudioPlayer("background.mp3")
+	t.True(player != nil)
 
-// 	if a := t.Equal(
-// 		len(exp),
-// 		len(t.creationSequence),
-// 		fmt.Sprintf("Triggered/Catched events were %v", t.exitSequence),
-// 	); a.Passed {
-// 		for i, exp := range []string{"onPause"} {
-// 			t.Equal(exp, t.creationSequence[i])
-// 		}
-// 	}
-// }
+	done := make(chan bool)
+	player.Play(done)
+	<-done
+	player.Stop()
+}
+
+func (t *TestSuite) TestBasicExitSequence() {
+	t.Pending()
+}
