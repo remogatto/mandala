@@ -80,7 +80,9 @@ func (ap *AudioPlayer) requestLoopFunc() loop.LoopFunc {
 			select {
 			case request := <-ap.playCh:
 				ap.play()
-				request.done <- true
+				if request.done != nil {
+					request.done <- true
+				}
 
 			case <-ap.stopCh:
 			}
@@ -115,4 +117,9 @@ func androidSoundLoopFunc(activity *C.ANativeActivity, event chan interface{}) l
 			}
 		}
 	}
+}
+
+//export playerCallback
+func playerCallback() {
+	Logf("Player done!\n")
 }

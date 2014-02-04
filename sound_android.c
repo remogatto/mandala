@@ -61,6 +61,8 @@ static short *nextBuffer;
 static unsigned nextSize;
 static int nextCount;
 
+extern void playerCallback();
+
 // create the engine and output mix objects
 void createEngine(JNIEnv* env, jclass clazz)
 {
@@ -112,6 +114,7 @@ void createEngine(JNIEnv* env, jclass clazz)
 jboolean createAssetAudioPlayer(ANativeActivity *act, t_asset_ap *ap, char *filename) 
 {
     SLresult result;
+    SLSeekItf fdPlayerSeek;
 
     // use asset manager to open asset by filename
     AAssetManager* mgr = act->assetManager;
@@ -155,6 +158,21 @@ jboolean createAssetAudioPlayer(ANativeActivity *act, t_asset_ap *ap, char *file
     result = (*ap->fdPlayerObject)->GetInterface(ap->fdPlayerObject, SL_IID_PLAY, &ap->fdPlayerPlay);
     assert(SL_RESULT_SUCCESS == result);
     (void)result;
+
+    // register callback
+    result = (*ap->fdPlayerObject)->RegisterCallback(ap->fdPlayerObject, playerCallback, NULL);
+    assert(SL_RESULT_SUCCESS == result);
+    (void)result;
+
+    /* // get the seek interface */
+    /* result = (*ap->fdPlayerObject)->GetInterface(ap->fdPlayerObject, SL_IID_SEEK, &fdPlayerSeek); */
+    /* assert(SL_RESULT_SUCCESS == result); */
+    /* (void)result; */
+
+    /* // enable whole file looping */
+    /* result = (*fdPlayerSeek)->SetLoop(fdPlayerSeek, SL_BOOLEAN_TRUE, 0, SL_TIME_UNKNOWN); */
+    /* assert(SL_RESULT_SUCCESS == result); */
+    /* (void)result; */
 
     return JNI_TRUE;
 }
