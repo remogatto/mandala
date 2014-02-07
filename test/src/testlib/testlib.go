@@ -19,7 +19,7 @@ const (
 	FRAMES_PER_SECOND = 15
 	GOPHER_PNG        = "gopher.png"
 	TIMEOUT           = time.Second * 30
-	expectedImgPath   = "res/drawable"
+	expectedImgPath   = "drawable"
 )
 
 type TestSuite struct {
@@ -344,7 +344,7 @@ func loadImage(filename string) (image.Image, error) {
 	// an Android device, the apk will be unpacked and the file
 	// will be read from it and copied to a byte buffer.
 	request := mandala.LoadAssetRequest{
-		Filename: "res/drawable/gopher.png",
+		Filename: "drawable/gopher.png",
 		Response: make(chan mandala.LoadAssetResponse),
 	}
 

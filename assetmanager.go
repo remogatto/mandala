@@ -6,11 +6,6 @@ import (
 	"git.tideland.biz/goas/loop"
 )
 
-var (
-	// The path in which the framework will search for resources.
-	AssetPath string = "android"
-)
-
 type LoadAssetResponse struct {
 	// The buffer containing the resource. Please note that, in
 	// case io.Reader is os.File, it's a client code
@@ -55,11 +50,10 @@ func assetLoopFunc(activity chan unsafe.Pointer, request chan interface{}) loop.
 	}
 }
 
-// func LoadAsset(filename string) <-chan io.Reader {
-// 	command := LoadAssetCommand{
-// 		Filename: filename,
-// 		Buffer:   make(chan io.Reader),
-// 	}
-// 	Assets <- command
-// 	return command.Buffer
-// }
+func ReadResource(filename string, responseCh chan LoadAssetResponse) {
+	request := LoadAssetRequest{
+		Filename: filename,
+		Response: responseCh,
+	}
+	AssetManager() <- request
+}

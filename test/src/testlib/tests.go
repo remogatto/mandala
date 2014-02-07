@@ -37,10 +37,10 @@ func testImage(filename string, act image.Image) (float64, image.Image, image.Im
 	return imagetest.CompareDistance(exp, act, imagetest.Scale), exp, act, nil
 }
 
-func (t *TestSuite) TestAssetManagerLoadResponse() {
+func (t *TestSuite) TestResourceManager() {
 
 	request := mandala.LoadAssetRequest{
-		Filename: "res/drawable/gopher.png",
+		Filename: "drawable/gopher.png",
 		Response: make(chan mandala.LoadAssetResponse),
 	}
 
@@ -67,6 +67,18 @@ func (t *TestSuite) TestAssetManagerLoadResponse() {
 
 	t.True(buffer == nil)
 	t.True(response.Error != nil)
+
+	// Use the helper API for loading resource
+	responseCh := make(chan mandala.LoadAssetResponse)
+	mandala.ReadResource("drawable/gopher.png", responseCh)
+	response = <-responseCh
+
+	buffer = response.Buffer
+	t.True(buffer != nil)
+	t.True(response.Error == nil, "An error occured during resource opening")
+
+	_, err = png.Decode(bytes.NewBuffer(buffer))
+	t.True(err == nil, "An error occured during png decoding")
 }
 
 func (t *TestSuite) TestBasicCreationSequence() {
@@ -141,22 +153,43 @@ func (t *TestSuite) TestDraw() {
 	t.True(distance < distanceThreshold, fmt.Sprintf("Image differs by distance %f", distance))
 }
 
-func (t *TestSuite) TestAudio() {
-	player, err := mandala.CreateAudioPlayer("notfound.ogg")
-	t.True(player == nil)
-	t.True(err != nil)
+// func (t *TestSuite) TestAudio() {
 
-	player, err = mandala.CreateAudioPlayer("deitzis.ogg")
-	t.True(player != nil)
-	t.True(err == nil)
+// 	// Create the audio player
+// 	controlCh := make(chan AudioPlayerControl)
+// 	player, err := mandala.NewAudioPlayer(controlCh)
 
-	if player != nil {
-		done := make(chan bool)
-		player.Play(done)
-		<-done
-		player.Stop()
-	}
-}
+// 	// Open an audio file from resources
+
+// 	request := mandala.LoadAssetRequest{
+// 		Filename: "res/drawable/gopher.png",
+// 		Response: make(chan mandala.LoadAssetResponse),
+// 	}
+
+// 	mandala.AssetManager() <- request
+
+// 	response := <-request.Response
+// 	buffer := response.Buffer
+
+// 	t.True(response.Error == nil, "An error occured during resource opening")
+
+// 	_, err := png.Decode(bytes.NewBuffer(buffer))
+// 	t.True(err == nil, "An error occured during png decoding")
+
+// 	t.True(player == nil)
+// 	t.True(err != nil)
+
+// 	player, err = mandala.CreateAudioPlayer("deitzis.ogg")
+// 	t.True(player != nil)
+// 	t.True(err == nil)
+
+// 	if player != nil {
+// 		done := make(chan bool)
+// 		player.Play(done)
+// 		<-done
+// 		player.Stop()
+// 	}
+// }
 
 func (t *TestSuite) TestBasicExitSequence() {
 	t.Pending()

@@ -6,12 +6,18 @@ import (
 	"archive/zip"
 	"fmt"
 	"io"
+	"path/filepath"
 	"unsafe"
 )
 
 // #include <android/native_activity.h>
 // #include "asset_android.h"
 import "C"
+
+var (
+	// The path in which the framework will search for resources.
+	AssetPath string = "res"
+)
 
 func loadAsset(activity unsafe.Pointer, filename string) ([]byte, error) {
 	apkPath := C.GoString(C.getPackageName((*C.ANativeActivity)(activity)))
@@ -25,7 +31,7 @@ func loadAsset(activity unsafe.Pointer, filename string) ([]byte, error) {
 
 	// Iterate through the files in the archive.
 	for _, f := range r.File {
-		if f.Name == filename {
+		if f.Name == filepath.Join(AssetPath, filename) {
 			rc, err := f.Open()
 			if err != nil {
 				return nil, err
@@ -39,5 +45,5 @@ func loadAsset(activity unsafe.Pointer, filename string) ([]byte, error) {
 			return buffer, nil
 		}
 	}
-	return nil, fmt.Errorf("Resource not found!")
+	return nil, fmt.Errorf(`Resource "%s" was not found!`, filename)
 }
