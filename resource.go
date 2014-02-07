@@ -10,12 +10,12 @@ import (
 
 var (
 	// The path in which the framework will search for resources.
-	AssetPath string = "android/res"
+	ResourcePath string = "android/res"
 )
 
-func loadAsset(activity unsafe.Pointer, filename string) ([]byte, error) {
+func loadResource(activity unsafe.Pointer, filename string) ([]byte, error) {
 	// Open the file.
-	buf, err := ioutil.ReadFile(filepath.Join(AssetPath, filename))
+	buf, err := ioutil.ReadFile(filepath.Join(ResourcePath, filename))
 	if err != nil {
 		return nil, err
 	}

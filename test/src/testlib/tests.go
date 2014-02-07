@@ -17,12 +17,12 @@ const (
 
 // Compare the result of rendering against the saved expected image.
 func testImage(filename string, act image.Image) (float64, image.Image, image.Image, error) {
-	request := mandala.LoadAssetRequest{
+	request := mandala.LoadResourceRequest{
 		Filename: filepath.Join(expectedImgPath, filename),
-		Response: make(chan mandala.LoadAssetResponse),
+		Response: make(chan mandala.LoadResourceResponse),
 	}
 
-	mandala.AssetManager() <- request
+	mandala.ResourceManager() <- request
 	response := <-request.Response
 	buffer := response.Buffer
 
@@ -39,12 +39,12 @@ func testImage(filename string, act image.Image) (float64, image.Image, image.Im
 
 func (t *TestSuite) TestResourceManager() {
 
-	request := mandala.LoadAssetRequest{
+	request := mandala.LoadResourceRequest{
 		Filename: "drawable/gopher.png",
-		Response: make(chan mandala.LoadAssetResponse),
+		Response: make(chan mandala.LoadResourceResponse),
 	}
 
-	mandala.AssetManager() <- request
+	mandala.ResourceManager() <- request
 
 	response := <-request.Response
 	buffer := response.Buffer
@@ -55,12 +55,12 @@ func (t *TestSuite) TestResourceManager() {
 	t.True(err == nil, "An error occured during png decoding")
 
 	// Load a non existent resource
-	request = mandala.LoadAssetRequest{
+	request = mandala.LoadResourceRequest{
 		Filename: "res/doesntexist",
-		Response: make(chan mandala.LoadAssetResponse),
+		Response: make(chan mandala.LoadResourceResponse),
 	}
 
-	mandala.AssetManager() <- request
+	mandala.ResourceManager() <- request
 
 	response = <-request.Response
 	buffer = response.Buffer
@@ -69,7 +69,7 @@ func (t *TestSuite) TestResourceManager() {
 	t.True(response.Error != nil)
 
 	// Use the helper API for loading resource
-	responseCh := make(chan mandala.LoadAssetResponse)
+	responseCh := make(chan mandala.LoadResourceResponse)
 	mandala.ReadResource("drawable/gopher.png", responseCh)
 	response = <-responseCh
 
@@ -161,12 +161,12 @@ func (t *TestSuite) TestDraw() {
 
 // 	// Open an audio file from resources
 
-// 	request := mandala.LoadAssetRequest{
+// 	request := mandala.LoadResourceRequest{
 // 		Filename: "res/drawable/gopher.png",
-// 		Response: make(chan mandala.LoadAssetResponse),
+// 		Response: make(chan mandala.LoadResourceResponse),
 // 	}
 
-// 	mandala.AssetManager() <- request
+// 	mandala.ResourceManager() <- request
 
 // 	response := <-request.Response
 // 	buffer := response.Buffer

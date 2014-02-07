@@ -71,7 +71,7 @@ this is the long-term aim, at least!
 A typical Mandala application has two loops: one continously listen to
 events, the other is responsible for rendering the scene. In order to
 dealing with application resources (images, sounds, configuration
-files, etc.), the framework provides an AssetManager object. Client
+files, etc.), the framework provides an ResourceManager object. Client
 code sends request to it in order to obtain resources as
 <tt>io.Reader</tt> instances. In the desktop application this simply
 means opening the file at the given path. In the Android application

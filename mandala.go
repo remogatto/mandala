@@ -74,10 +74,10 @@ func Stacktrace() string {
 	return string(buf)
 }
 
-// AssetManager() returns a send-only channel to which client-code
-// send request for resources. Please refer to assetmanager.go for a
+// ResourceManager() returns a send-only channel to which client-code
+// send request for resources. Please refer to resourcemanager.go for a
 // complete list of supported requests.
-func AssetManager() chan<- interface{} {
+func ResourceManager() chan<- interface{} {
 	return request
 }
 
@@ -100,7 +100,7 @@ func init() {
 	soundCh = make(chan interface{})
 
 	loop.GoRecoverable(
-		assetLoopFunc(activity, request),
+		resourceLoopFunc(activity, request),
 		func(rs loop.Recoverings) (loop.Recoverings, error) {
 			for _, r := range rs {
 				Logf("%s", r.Reason)

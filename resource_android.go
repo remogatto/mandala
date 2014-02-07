@@ -11,15 +11,15 @@ import (
 )
 
 // #include <android/native_activity.h>
-// #include "asset_android.h"
+// #include "resource_android.h"
 import "C"
 
 var (
 	// The path in which the framework will search for resources.
-	AssetPath string = "res"
+	ResourcePath string = "res"
 )
 
-func loadAsset(activity unsafe.Pointer, filename string) ([]byte, error) {
+func loadResource(activity unsafe.Pointer, filename string) ([]byte, error) {
 	apkPath := C.GoString(C.getPackageName((*C.ANativeActivity)(activity)))
 
 	// Open a zip archive for reading.
@@ -31,7 +31,7 @@ func loadAsset(activity unsafe.Pointer, filename string) ([]byte, error) {
 
 	// Iterate through the files in the archive.
 	for _, f := range r.File {
-		if f.Name == filepath.Join(AssetPath, filename) {
+		if f.Name == filepath.Join(ResourcePath, filename) {
 			rc, err := f.Open()
 			if err != nil {
 				return nil, err
