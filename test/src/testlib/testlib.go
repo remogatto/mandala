@@ -340,15 +340,15 @@ func check() {
 }
 
 func loadImage(filename string) (image.Image, error) {
-	// Request an asset to the asset manager. When the app runs on
+	// Request an resource to the resource manager. When the app runs on
 	// an Android device, the apk will be unpacked and the file
 	// will be read from it and copied to a byte buffer.
-	request := mandala.LoadAssetRequest{
+	request := mandala.LoadResourceRequest{
 		Filename: "drawable/gopher.png",
-		Response: make(chan mandala.LoadAssetResponse),
+		Response: make(chan mandala.LoadResourceResponse),
 	}
 
-	mandala.AssetManager() <- request
+	mandala.ResourceManager() <- request
 	response := <-request.Response
 	buffer := response.Buffer
 
