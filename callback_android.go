@@ -125,16 +125,12 @@ func onCreate(act *C.ANativeActivity, savedState unsafe.Pointer, savedStateSize 
 	setState(act, &state{act, nil})
 
 	// Initialize the native sound library
-	loop.GoRecoverable(
-		androidSoundLoopFunc(act, soundCh),
-		func(rs loop.Recoverings) (loop.Recoverings, error) {
-			for _, r := range rs {
-				Logf("%s", r.Reason)
-				Logf("%s", Stacktrace())
-			}
-			return rs, fmt.Errorf("Unrecoverable loop\n")
-		},
-	)
+	err := initOpenSL()
+	if err != nil {
+		Logf(err.Error())
+	} else {
+		Debugf("OpenSL successfully initialized")
+	}
 
 	// Initialize the native event loop
 	loop.GoRecoverable(
@@ -160,6 +156,11 @@ func onDestroy(act *C.ANativeActivity) {
 		handleCallbackError(act, recover())
 	}()
 	Debugf("onDestroy...\n")
+
+	// Shutdown the sound engine
+	Debugf("Shutdown OpenSL")
+	shutdownOpenSL()
+
 	Debugf("onDestroy done\n")
 }
 

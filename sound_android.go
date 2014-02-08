@@ -16,16 +16,21 @@ import (
 // #cgo LDFLAGS: -landroid -lOpenSLES
 import "C"
 
-type assetPlayer struct {
-	fdPlayerObject C.SLObjectItf
-	fdPlayerPlay   C.SLPlayItf
+type apPlayRequest struct {
+	buffer []byte
+	doneCh chan bool
 }
 
-type AudioPlayer struct {
-	filename    string
-	assetPlayer *assetPlayer
-	playCh      chan apPlayRequest
-	stopCh      chan apStopRequest
+type bufferQueuePlayer struct {
+	bqPlayerObject      C.SLObjectItf
+	bqPlayerPlay        C.SLPlayItf
+	bqPlayerBufferQueue C.SLAndroidSimpleBufferQueueItf
+	bqPlayerVolume      C.SLVolumeItf
+}
+
+type audioPlayer struct {
+	bqPlayer *bufferQueuePlayer
+	playCh   chan apPlayRequest
 }
 
 func jniBool(value C.jboolean) bool {
@@ -35,30 +40,28 @@ func jniBool(value C.jboolean) bool {
 	return false
 }
 
-func initSound() {
-	C.createEngine(nil, nil)
+func initOpenSL() error {
+	result := C.initOpenSL()
+	if result != C.SL_RESULT_SUCCESS {
+		return fmt.Errorf("Unable to initialize the native audio library. Error code is %x", int(result))
+	}
+	return nil
 }
 
-func newAudioPlayer(activity *C.ANativeActivity, filename string) (*AudioPlayer, error) {
-	ap := new(AudioPlayer)
-	ap.filename = filename
-	ap.assetPlayer = new(assetPlayer)
+func shutdownOpenSL() {
+	C.shutdownOpenSL()
+}
 
-	cstring := C.CString(filename)
-	defer C.free(unsafe.Pointer(cstring))
+func newAudioPlayer() (*audioPlayer, error) {
+	ap := new(audioPlayer)
+	ap.bqPlayer = new(bufferQueuePlayer)
+	result := C.createBufferQueueAudioPlayer((*C.t_buffer_queue_ap)(ap.bqPlayer))
 
-	cresult := C.createAssetAudioPlayer(
-		activity,
-		(*C.t_asset_ap)(ap.assetPlayer),
-		cstring,
-	)
-
-	if !jniBool(cresult) {
-		return nil, fmt.Errorf("An error occured trying to create an audio player from asset")
+	if result != C.SL_RESULT_SUCCESS {
+		return nil, fmt.Errorf("Error %d occured trying to create a buffer queue player", result)
 	}
 
 	ap.playCh = make(chan apPlayRequest)
-	ap.stopCh = make(chan apStopRequest)
 
 	loop.GoRecoverable(
 		ap.requestLoopFunc(),
@@ -74,49 +77,43 @@ func newAudioPlayer(activity *C.ANativeActivity, filename string) (*AudioPlayer,
 	return ap, nil
 }
 
-func (ap *AudioPlayer) requestLoopFunc() loop.LoopFunc {
+func (ap *audioPlayer) requestLoopFunc() loop.LoopFunc {
 	return func(l loop.Loop) error {
 		for {
 			select {
 			case request := <-ap.playCh:
-				ap.play()
-				if request.done != nil {
-					request.done <- true
-				}
-
-			case <-ap.stopCh:
-			}
-		}
-	}
-}
-
-func (ap *AudioPlayer) play() {
-	C.setPlayingAssetAudioPlayer(ap.assetPlayer.fdPlayerPlay, C.JNI_TRUE)
-}
-
-func (ap *AudioPlayer) stop() {
-	C.setPlayingAssetAudioPlayer(ap.assetPlayer.fdPlayerPlay, C.JNI_FALSE)
-}
-
-// The loop handles native sound events.
-func androidSoundLoopFunc(activity *C.ANativeActivity, event chan interface{}) loop.LoopFunc {
-	return func(l loop.Loop) error {
-
-		// Initialize OpenSL
-		initSound()
-
-		for {
-			select {
-			case untypedEvent := <-event:
-				switch event := untypedEvent.(type) {
-				case apCreateRequest:
-					response := apCreateResponse{}
-					response.ap, response.err = newAudioPlayer(activity, event.filename)
-					event.responseCh <- response
+				ap.enqueue(request.buffer)
+				if request.doneCh != nil {
+					request.doneCh <- true
 				}
 			}
 		}
 	}
+}
+
+func (ap *audioPlayer) play(buffer []byte, doneCh chan bool) {
+	ap.playCh <- apPlayRequest{buffer: buffer, doneCh: doneCh}
+}
+
+func (ap *audioPlayer) enqueue(buffer []byte) {
+	C.enqueueBuffer((*C.t_buffer_queue_ap)(ap.bqPlayer), unsafe.Pointer(&buffer[0]), C.SLuint32(len(buffer)))
+}
+
+func (ap *audioPlayer) setVolumeLevel(value int) error {
+	result := C.setVolumeLevel((*C.t_buffer_queue_ap)(ap.bqPlayer), C.SLmillibel(value))
+	if result != C.SL_RESULT_SUCCESS {
+		return fmt.Errorf("Unable to set volume level. Error code is %x", int(result))
+	}
+	return nil
+}
+
+func (ap *audioPlayer) getMaxVolumeLevel() (int, error) {
+	var maxLevel C.SLmillibel
+	result := C.getMaxVolumeLevel((*C.t_buffer_queue_ap)(ap.bqPlayer), &maxLevel)
+	if result != C.SL_RESULT_SUCCESS {
+		return 0, fmt.Errorf("Unable to get max volume level. Error code is %x", int(result))
+	}
+	return int(maxLevel), nil
 }
 
 //export playerCallback

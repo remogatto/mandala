@@ -16,13 +16,20 @@
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
 
-typedef struct asset_ap
+typedef struct buffer_queue_ap
 {
-  SLObjectItf fdPlayerObject;
-  SLPlayItf fdPlayerPlay;
-} t_asset_ap;
+  SLObjectItf bqPlayerObject;
+  SLPlayItf bqPlayerPlay;
+  SLAndroidSimpleBufferQueueItf	bqPlayerBufferQueue;
+  SLVolumeItf bqPlayerVolume;
+} t_buffer_queue_ap;
 
-extern void createEngine(JNIEnv* env, jclass clazz);
-extern jboolean createAssetAudioPlayer(ANativeActivity *act, t_asset_ap *ap, char *filename);
-extern void setPlayingAssetAudioPlayer(SLPlayItf fdPlayerPlay, jboolean isPlaying);
+extern SLresult initOpenSL();
+extern void shutdownOpenSL();
+extern SLresult createBufferQueueAudioPlayer(t_buffer_queue_ap *ap);
+extern SLresult enqueueBuffer(t_buffer_queue_ap *ap, const void *buffer, SLuint32 size);
+extern SLresult getMaxVolumeLevel(t_buffer_queue_ap *ap, SLmillibel *maxLevel);
+extern SLresult setVolumeLevel(t_buffer_queue_ap *ap, SLmillibel value);
+
+
 

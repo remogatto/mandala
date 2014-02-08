@@ -68,7 +68,7 @@ func (t *TestSuite) TestResourceManager() {
 	t.True(buffer == nil)
 	t.True(response.Error != nil)
 
-	// Use the helper API for loading resource
+	// Use the helper API for loading resources
 	responseCh := make(chan mandala.LoadResourceResponse)
 	mandala.ReadResource("drawable/gopher.png", responseCh)
 	response = <-responseCh
@@ -153,43 +153,27 @@ func (t *TestSuite) TestDraw() {
 	t.True(distance < distanceThreshold, fmt.Sprintf("Image differs by distance %f", distance))
 }
 
-// func (t *TestSuite) TestAudio() {
+func (t *TestSuite) TestAudio() {
+	// Open an audio file from resources
+	responseCh := make(chan mandala.LoadResourceResponse)
+	mandala.ReadResource("raw/android.raw", responseCh)
+	response := <-responseCh
+	buffer := response.Buffer
+	t.True(response.Error == nil, "An error occured during resource opening")
 
-// 	// Create the audio player
-// 	controlCh := make(chan AudioPlayerControl)
-// 	player, err := mandala.NewAudioPlayer(controlCh)
+	// Create the audio player
+	player, err := mandala.NewAudioPlayer()
+	t.True(err == nil)
 
-// 	// Open an audio file from resources
+	// Hum...this seems to fail for now
+	max, err := player.GetMaxVolumeLevel()
+	t.True(err == nil, "Error in getting the max volume level")
+	t.True(max > 0, fmt.Sprintf("Max volume level is %d", max))
 
-// 	request := mandala.LoadResourceRequest{
-// 		Filename: "res/drawable/gopher.png",
-// 		Response: make(chan mandala.LoadResourceResponse),
-// 	}
-
-// 	mandala.ResourceManager() <- request
-
-// 	response := <-request.Response
-// 	buffer := response.Buffer
-
-// 	t.True(response.Error == nil, "An error occured during resource opening")
-
-// 	_, err := png.Decode(bytes.NewBuffer(buffer))
-// 	t.True(err == nil, "An error occured during png decoding")
-
-// 	t.True(player == nil)
-// 	t.True(err != nil)
-
-// 	player, err = mandala.CreateAudioPlayer("deitzis.ogg")
-// 	t.True(player != nil)
-// 	t.True(err == nil)
-
-// 	if player != nil {
-// 		done := make(chan bool)
-// 		player.Play(done)
-// 		<-done
-// 		player.Stop()
-// 	}
-// }
+	if player != nil {
+		player.Play(buffer, nil)
+	}
+}
 
 func (t *TestSuite) TestBasicExitSequence() {
 	t.Pending()
