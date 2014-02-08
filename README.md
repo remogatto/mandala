@@ -35,7 +35,7 @@ Have a nice Mandala!
 # Supported desktop platforms
 
 * Linux (xorg)
-* OSX (see the wiki page)
+* OSX (see the wiki [page](https://github.com/remogatto/mandala/wiki/OSX-support))
 
 # Techonologies involved
 
