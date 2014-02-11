@@ -89,7 +89,12 @@ func onPause(act *C.ANativeActivity) {
 		handleCallbackError(act, recover())
 	}()
 	Debugf("Pausing...\n")
+
 	event <- PauseEvent{unsafe.Pointer(act)}
+
+	// Shutdown the sound engine
+	shutdownOpenSL()
+
 	Debugf("Paused...\n")
 }
 
@@ -116,6 +121,8 @@ func onCreate(act *C.ANativeActivity, savedState unsafe.Pointer, savedStateSize 
 	defer func() {
 		handleCallbackError(act, recover())
 	}()
+
+	Debugf("onCreate...")
 
 	internalEvent = make(chan interface{})
 	looperCh := make(chan *C.ALooper)
@@ -148,6 +155,8 @@ func onCreate(act *C.ANativeActivity, savedState unsafe.Pointer, savedStateSize 
 	looper = <-looperCh
 
 	event <- CreateEvent{unsafe.Pointer(act), savedState, int(savedStateSize)}
+
+	Debugf("onCreate done.")
 }
 
 //export onDestroy
@@ -160,6 +169,8 @@ func onDestroy(act *C.ANativeActivity) {
 	// Shutdown the sound engine
 	Debugf("Shutdown OpenSL")
 	shutdownOpenSL()
+
+	// event <- DestroyEvent{unsafe.Pointer(act)}
 
 	Debugf("onDestroy done\n")
 }

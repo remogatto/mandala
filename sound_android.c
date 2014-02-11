@@ -189,6 +189,21 @@ SLresult enqueueBuffer(t_buffer_queue_ap *ap, const void *buffer, SLuint32 size)
   return result;
 }
 
+SLresult destroyBufferQueueAudioPlayer(t_buffer_queue_ap *ap)
+{
+  SLresult result;
+
+  result = (*ap->bqPlayerPlay)->SetPlayState(ap->bqPlayerPlay, SL_PLAYSTATE_STOPPED);
+
+  if (result != SL_RESULT_SUCCESS) {
+    return result;
+  }
+ 
+  (*ap->bqPlayerObject)->Destroy(ap->bqPlayerObject);
+
+  return SL_RESULT_SUCCESS;
+}
+
 // shut down the native audio system
 void shutdownOpenSL()
 {

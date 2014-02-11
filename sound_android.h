@@ -27,6 +27,7 @@ typedef struct buffer_queue_ap
 extern SLresult initOpenSL();
 extern void shutdownOpenSL();
 extern SLresult createBufferQueueAudioPlayer(t_buffer_queue_ap *ap);
+extern SLresult destroyBufferQueueAudioPlayer(t_buffer_queue_ap *ap);
 extern SLresult enqueueBuffer(t_buffer_queue_ap *ap, const void *buffer, SLuint32 size);
 extern SLresult getMaxVolumeLevel(t_buffer_queue_ap *ap, SLmillibel *maxLevel);
 extern SLresult setVolumeLevel(t_buffer_queue_ap *ap, SLmillibel value);

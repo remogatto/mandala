@@ -4,8 +4,8 @@ package mandala
 
 import (
 	"fmt"
+	"sync"
 	"unsafe"
-	"git.tideland.biz/goas/loop"
 )
 
 // #include <android/native_activity.h>
@@ -16,10 +16,10 @@ import (
 // #cgo LDFLAGS: -landroid -lOpenSLES
 import "C"
 
-type apPlayRequest struct {
-	buffer []byte
-	doneCh chan bool
-}
+var (
+	rwPlayerMutex sync.RWMutex
+	bqPlayers     []*audioPlayer
+)
 
 type bufferQueuePlayer struct {
 	bqPlayerObject      C.SLObjectItf
@@ -30,7 +30,6 @@ type bufferQueuePlayer struct {
 
 type audioPlayer struct {
 	bqPlayer *bufferQueuePlayer
-	playCh   chan apPlayRequest
 }
 
 func jniBool(value C.jboolean) bool {
@@ -49,6 +48,12 @@ func initOpenSL() error {
 }
 
 func shutdownOpenSL() {
+	Debugf("Shutting down OpenSL ES")
+	rwPlayerMutex.RLock()
+	for _, bqPlayer := range bqPlayers {
+		bqPlayer.destroy()
+	}
+	rwPlayerMutex.RUnlock()
 	C.shutdownOpenSL()
 }
 
@@ -56,43 +61,24 @@ func newAudioPlayer() (*audioPlayer, error) {
 	ap := new(audioPlayer)
 	ap.bqPlayer = new(bufferQueuePlayer)
 	result := C.createBufferQueueAudioPlayer((*C.t_buffer_queue_ap)(ap.bqPlayer))
-
 	if result != C.SL_RESULT_SUCCESS {
 		return nil, fmt.Errorf("Error %d occured trying to create a buffer queue player", result)
 	}
 
-	ap.playCh = make(chan apPlayRequest)
-
-	loop.GoRecoverable(
-		ap.requestLoopFunc(),
-		func(rs loop.Recoverings) (loop.Recoverings, error) {
-			for _, r := range rs {
-				Logf("%s", r.Reason)
-				Logf("%s", Stacktrace())
-			}
-			return rs, fmt.Errorf("Unrecoverable loop\n")
-		},
-	)
+	rwPlayerMutex.Lock()
+	bqPlayers = append(bqPlayers, ap)
+	rwPlayerMutex.Unlock()
 
 	return ap, nil
 }
 
-func (ap *audioPlayer) requestLoopFunc() loop.LoopFunc {
-	return func(l loop.Loop) error {
-		for {
-			select {
-			case request := <-ap.playCh:
-				ap.enqueue(request.buffer)
-				if request.doneCh != nil {
-					request.doneCh <- true
-				}
-			}
-		}
-	}
+func (ap *audioPlayer) play(buffer []byte, doneCh chan bool) {
+	ap.enqueue(buffer)
 }
 
-func (ap *audioPlayer) play(buffer []byte, doneCh chan bool) {
-	ap.playCh <- apPlayRequest{buffer: buffer, doneCh: doneCh}
+func (ap *audioPlayer) destroy() {
+	Debugf("Destroying audio player %q", ap)
+	C.destroyBufferQueueAudioPlayer((*C.t_buffer_queue_ap)(ap.bqPlayer))
 }
 
 func (ap *audioPlayer) enqueue(buffer []byte) {
