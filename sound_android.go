@@ -16,11 +16,6 @@ import (
 // #cgo LDFLAGS: -landroid -lOpenSLES
 import "C"
 
-var (
-	rwPlayerMutex sync.RWMutex
-	bqPlayers     []*audioPlayer
-)
-
 type bufferQueuePlayer struct {
 	bqPlayerObject      C.SLObjectItf
 	bqPlayerPlay        C.SLPlayItf
@@ -29,6 +24,7 @@ type bufferQueuePlayer struct {
 }
 
 type audioPlayer struct {
+	rwMutex  sync.RWMutex
 	bqPlayer *bufferQueuePlayer
 }
 
@@ -49,11 +45,6 @@ func initOpenSL() error {
 
 func shutdownOpenSL() {
 	Debugf("Shutting down OpenSL ES")
-	rwPlayerMutex.RLock()
-	for _, bqPlayer := range bqPlayers {
-		bqPlayer.destroy()
-	}
-	rwPlayerMutex.RUnlock()
 	C.shutdownOpenSL()
 }
 
@@ -64,11 +55,6 @@ func newAudioPlayer() (*audioPlayer, error) {
 	if result != C.SL_RESULT_SUCCESS {
 		return nil, fmt.Errorf("Error %d occured trying to create a buffer queue player", result)
 	}
-
-	rwPlayerMutex.Lock()
-	bqPlayers = append(bqPlayers, ap)
-	rwPlayerMutex.Unlock()
-
 	return ap, nil
 }
 
@@ -77,8 +63,10 @@ func (ap *audioPlayer) play(buffer []byte, doneCh chan bool) {
 }
 
 func (ap *audioPlayer) destroy() {
-	Debugf("Destroying audio player %q", ap)
+	Debugf("Destroying audio player at 0x%x", ap)
+	ap.rwMutex.Lock()
 	C.destroyBufferQueueAudioPlayer((*C.t_buffer_queue_ap)(ap.bqPlayer))
+	ap.rwMutex.Unlock()
 }
 
 func (ap *audioPlayer) enqueue(buffer []byte) {

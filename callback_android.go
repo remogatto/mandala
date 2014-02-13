@@ -90,7 +90,9 @@ func onPause(act *C.ANativeActivity) {
 	}()
 	Debugf("Pausing...\n")
 
-	event <- PauseEvent{unsafe.Pointer(act)}
+	paused := make(chan bool)
+	event <- PauseEvent{unsafe.Pointer(act), paused}
+	<-paused
 
 	// Shutdown the sound engine
 	shutdownOpenSL()
@@ -165,10 +167,6 @@ func onDestroy(act *C.ANativeActivity) {
 		handleCallbackError(act, recover())
 	}()
 	Debugf("onDestroy...\n")
-
-	// Shutdown the sound engine
-	Debugf("Shutdown OpenSL")
-	shutdownOpenSL()
 
 	// event <- DestroyEvent{unsafe.Pointer(act)}
 

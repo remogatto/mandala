@@ -48,9 +48,12 @@ type NativeWindowRedrawNeededEvent struct {
 
 // A PauseEvent is triggered when the application is paused. It
 // happens, for example, when the back button is pressed and the
-// application goes in background.
+// application goes in background. Please note that the framework will
+// wait for a value from Paused channel before actually pause the
+// application.
 type PauseEvent struct {
 	Activity unsafe.Pointer
+	Paused   chan bool
 }
 
 // A ResumeEvent is triggered when the application goes

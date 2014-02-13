@@ -31,3 +31,7 @@ func (ap *AudioPlayer) GetMaxVolumeLevel() (int, error) {
 func (ap *AudioPlayer) SetVolumeLevel(value int) error {
 	return ap.ap.setVolumeLevel(value)
 }
+
+func (ap *AudioPlayer) Destroy() {
+	ap.ap.destroy()
+}
