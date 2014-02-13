@@ -2,11 +2,6 @@
 
 package mandala
 
-type apPlayRequest struct {
-	buffer []byte
-	doneCh chan bool
-}
-
 type audioPlayer struct{}
 
 func newAudioPlayer() (*audioPlayer, error) {
@@ -23,4 +18,8 @@ func (ap *audioPlayer) setVolumeLevel(value int) error {
 
 func (ap *audioPlayer) getMaxVolumeLevel() (int, error) {
 	return 0, nil
+}
+
+func (ap *audioPlayer) destroy() {
+	// do nothing
 }
