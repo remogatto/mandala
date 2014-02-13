@@ -77,13 +77,13 @@ A typical Mandala application has two loops: one continously listen to
 events, the other is responsible for rendering the scene. In order to
 dealing with application resources (images, sounds, configuration
 files, etc.), the framework provides an ResourceManager object. Client
-code sends request to it in order to obtain resources as
-<tt>io.Reader</tt> instances. In the desktop application this simply
-means opening the file at the given path. In the Android application
-the framework will unpack the apk archive on the fly getting the
-requested resources from it. However, is the framework responsibility
-to deal with the right native method for opening file. From the
-client-code point of view the request will be the same.
+code sends request to it in order to obtain resources as slices of
+bytes. In the desktop application this simply means opening the file
+at the given path. In the Android application the framework will
+unpack the apk archive on the fly getting the requested resources from
+it. However, is the framework responsibility to deal with the right
+native method for opening file. From the client-code point of view the
+request will be the same.
 
 The bothering steps needed to build, package and deploy the
 application on the device are simplified using a set of predefined
@@ -91,7 +91,8 @@ application on the device are simplified using a set of predefined
 
 # Examples
 
-Please visit [mandala-examples](https://github.com/remogatto/mandala-examples).
+Please visit
+[mandala-examples](https://github.com/remogatto/mandala-examples).
 
 # Prerequisites
 
@@ -120,7 +121,8 @@ distribution. For example,
 export GOANDROID=$HOME/src/goandroid/go/bin
 </pre>
 
-Also note that on a 32 bit host machine, it would be necessary to generate the toolchain with:
+Also note that on a 32 bit host machine, it would be necessary to
+generate the toolchain with:
 
 <pre>
 $NDK/build/tools/make-standalone-toolchain.sh --platform=android-9 --toolchain=arm-linux-androideabi-4.8 --install-dir=ndk-toolchain
