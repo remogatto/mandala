@@ -32,6 +32,11 @@ Have a nice Mandala!
 * Communicate through channels, no callbacks.
 * Quick bootstrap using a predefined template.
 
+# Supported desktop platforms
+
+* Linux (xorg)
+* OSX (see the wiki [page](https://github.com/remogatto/mandala/wiki/OSX-support))
+
 # Techonologies involved
 
 * [Android NDK](http://developer.android.com/tools/sdk/ndk/index.html)
