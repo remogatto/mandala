@@ -44,6 +44,8 @@ func resourceLoopFunc(activity chan unsafe.Pointer, request chan interface{}) lo
 	}
 }
 
+// ReadResource reads a resource named filename and send the response
+// to the given responseCh channel.
 func ReadResource(filename string, responseCh chan LoadResourceResponse) {
 	request := LoadResourceRequest{
 		Filename: filename,

@@ -5,14 +5,16 @@ import (
 	"fmt"
 	"image"
 	"image/png"
-	"log"
+	"path/filepath"
 	"runtime"
 	"time"
 
 	"git.tideland.biz/goas/loop"
+	"github.com/remogatto/imagetest"
 	"github.com/remogatto/mandala"
 	gl "github.com/remogatto/opengles2"
 	"github.com/remogatto/prettytest"
+	"github.com/remogatto/shaders"
 )
 
 const (
@@ -50,23 +52,21 @@ var (
 		1.0, 1.0, 0.0, 1.0, 1.0, 0.0,
 		-1.0, 1.0, 0.0, 1.0, 0.0, 0.0,
 	}
-	vsh = `
+	vsh = shaders.VertexShader(`
         attribute vec4 pos;
         attribute vec2 texIn;
         varying vec2 texOut;
         void main() {
           gl_Position = pos;
           texOut = texIn;
-        }
-`
-	fsh = `
+        }`)
+	fsh = shaders.FragmentShader(`
         precision mediump float;
         varying vec2 texOut;
         uniform sampler2D texture;
 	void main() {
 		gl_FragColor = texture2D(texture, texOut);
-	}
-`
+	}`)
 )
 
 type viewportSize struct {
@@ -84,54 +84,29 @@ type renderState struct {
 	window mandala.Window
 }
 
-func checkShaderCompileStatus(shader uint32) {
-	var stat int32
-	gl.GetShaderiv(shader, gl.COMPILE_STATUS, &stat)
-	if stat == 0 {
-		var length int32
-		gl.GetShaderiv(shader, gl.INFO_LOG_LENGTH, &length)
-		infoLog := gl.GetShaderInfoLog(shader, gl.Sizei(length), nil)
-		log.Fatalf("Compile error in shader %d: \"%s\"\n", shader, infoLog[:len(infoLog)-1])
+// TestImage compares a saved expected image of a given filename with
+// an actual image.Image that typically contains the result of a
+// rendering. It returns the distance value and the two compared
+// images.
+func TestImage(filename string, act image.Image) (float64, image.Image, image.Image, error) {
+	request := mandala.LoadResourceRequest{
+		Filename: filepath.Join(expectedImgPath, filename),
+		Response: make(chan mandala.LoadResourceResponse),
 	}
-}
 
-func checkProgramLinkStatus(pid uint32) {
-	var stat int32
-	gl.GetProgramiv(pid, gl.LINK_STATUS, &stat)
-	if stat == 0 {
-		var length int32
-		gl.GetProgramiv(pid, gl.INFO_LOG_LENGTH, &length)
-		infoLog := gl.GetProgramInfoLog(pid, gl.Sizei(length), nil)
-		log.Fatalf("Link error in program %d: \"%s\"\n", pid, infoLog[:len(infoLog)-1])
+	mandala.ResourceManager() <- request
+	response := <-request.Response
+	buffer := response.Buffer
+
+	if response.Error != nil {
+		return 1, nil, nil, response.Error
 	}
-}
 
-// Create a fragment shader from a string and return its reference.
-func FragmentShader(s string) uint32 {
-	shader := gl.CreateShader(gl.FRAGMENT_SHADER)
-	gl.ShaderSource(shader, 1, &s, nil)
-	gl.CompileShader(shader)
-	checkShaderCompileStatus(shader)
-	return shader
-}
-
-// Create a vertex shader from a string and return its reference.
-func VertexShader(s string) uint32 {
-	shader := gl.CreateShader(gl.VERTEX_SHADER)
-	gl.ShaderSource(shader, 1, &s, nil)
-	gl.CompileShader(shader)
-	checkShaderCompileStatus(shader)
-	return shader
-}
-
-// Create a program from vertex and fragment shaders.
-func Program(fsh, vsh uint32) uint32 {
-	p := gl.CreateProgram()
-	gl.AttachShader(p, fsh)
-	gl.AttachShader(p, vsh)
-	gl.LinkProgram(p)
-	checkProgramLinkStatus(p)
-	return p
+	exp, err := png.Decode(bytes.NewBuffer(buffer))
+	if err != nil {
+		return 1, nil, nil, err
+	}
+	return imagetest.CompareDistance(exp, act, imagetest.Scale), exp, act, nil
 }
 
 func (renderState *renderState) init(window mandala.Window) {
@@ -145,14 +120,14 @@ func (renderState *renderState) init(window mandala.Window) {
 	check()
 
 	// Compile the shaders
-	program := Program(FragmentShader(fsh), VertexShader(vsh))
-	gl.UseProgram(program)
+	program := shaders.NewProgram(fsh.Compile(), vsh.Compile())
+	program.Use()
 	check()
 
 	// Get attributes
-	attrPos = uint32(gl.GetAttribLocation(program, "pos"))
-	attrTexIn = uint32(gl.GetAttribLocation(program, "texIn"))
-	unifTexture = gl.GetUniformLocation(program, "texture")
+	attrPos = program.GetAttribute("pos")
+	attrTexIn = program.GetAttribute("texIn")
+	unifTexture = program.GetUniform("texture")
 	gl.EnableVertexAttribArray(attrPos)
 	gl.EnableVertexAttribArray(attrTexIn)
 	check()
