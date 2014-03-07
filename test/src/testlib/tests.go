@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"image/png"
+
+	"github.com/remogatto/imagetest"
 	"github.com/remogatto/mandala"
 )
 
@@ -120,7 +122,7 @@ func (t *TestSuite) TestActionMove() {
 
 func (t *TestSuite) TestDraw() {
 	filename := GOPHER_PNG
-	distance, _, _, err := TestImage(filename, <-t.testDraw)
+	distance, _, _, err := TestImage(filename, <-t.testDraw, imagetest.Center)
 	if err != nil {
 		mandala.Fatalf(err.Error())
 	}

@@ -88,7 +88,7 @@ type renderState struct {
 // an actual image.Image that typically contains the result of a
 // rendering. It returns the distance value and the two compared
 // images.
-func TestImage(filename string, act image.Image) (float64, image.Image, image.Image, error) {
+func TestImage(filename string, act image.Image, adjust imagetest.Adjuster) (float64, image.Image, image.Image, error) {
 	request := mandala.LoadResourceRequest{
 		Filename: filepath.Join(expectedImgPath, filename),
 		Response: make(chan mandala.LoadResourceResponse),
@@ -106,7 +106,7 @@ func TestImage(filename string, act image.Image) (float64, image.Image, image.Im
 	if err != nil {
 		return 1, nil, nil, err
 	}
-	return imagetest.CompareDistance(exp, act, imagetest.Scale), exp, act, nil
+	return imagetest.CompareDistance(exp, act, adjust), exp, act, nil
 }
 
 func (renderState *renderState) init(window mandala.Window) {
@@ -120,7 +120,7 @@ func (renderState *renderState) init(window mandala.Window) {
 	check()
 
 	// Compile the shaders
-	program := shaders.NewProgram(fsh.Compile(), vsh.Compile())
+	program := shaders.NewProgram(fsh, vsh)
 	program.Use()
 	check()
 
