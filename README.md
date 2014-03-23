@@ -6,9 +6,9 @@ Mandala is a framework for writing Android native applications in
 [Goandroid](https://github.com/eliasnaur/goandroid) toolchain. You can
 develop, test and run your application on your desktop and then deploy
 it to an Android device. It encourages the use of idiomatic Go for
-writing Android applications: communication happens through channels,
-no callbacks. The framework is not to be considered as an high-level
-game engine but as a basic layer onto which game engines can be build
+writing Android applications: communication happens through channels and 
+not callbacks. The framework should not be considered a high-level
+game engine but as a basic layer onto which game engines can be built
 or existing ones can be used. In my opinion, this opens interesting
 scenarios in the developing of native Android applications/games in
 Go. Goandroid's
@@ -17,7 +17,7 @@ example was the initial source of inspiration for this project.
 
 Please consider that Mandala is in a very early stage of development:
 API will change, test coverage is not so good for now. Last but not
-least, Go doesn't officially supports native Android
+least, Go doesn't officially support native Android
 development. Regarding this point, I hope that the present work could
 act as a sort of incentive in the direction of an official Android
 support by the Go Team.
@@ -50,7 +50,7 @@ Have a nice Mandala!
 
 # How does it work?
 
-Mandala uses [Goandroid](https://github.com/eliasnaur/goandroid) toolchain to compile Go
+Mandala uses the [Goandroid](https://github.com/eliasnaur/goandroid) toolchain to compile Go
 applications for Android. The graphics abstraction between desktop and
 device is obtained using a bunch of technologies. In particular
 
@@ -73,19 +73,19 @@ build, run and test the application on the desktop with the promise
 that it will behave the same on the device once deployed. Oh well,
 this is the long-term aim, at least!
 
-A typical Mandala application has two loops: one continously listen to
+A typical Mandala application has two loops: one continuously listens for
 events, the other is responsible for rendering the scene. In order to
 dealing with application resources (images, sounds, configuration
-files, etc.), the framework provides an ResourceManager object. Client
-code sends request to it in order to obtain resources as slices of
+files, etc.), the framework provides a ResourceManager object. Client
+code sends requests to it in order to obtain resources as slices of
 bytes. In the desktop application this simply means opening the file
 at the given path. In the Android application the framework will
 unpack the apk archive on the fly getting the requested resources from
-it. However, is the framework responsibility to deal with the right
-native method for opening file. From the client-code point of view the
+it. However, it is the framework's responsibility to deal with the right
+native method for opening a file. From the client-code point of view the
 request will be the same.
 
-The bothering steps needed to build, package and deploy the
+The bothersome steps needed to build, package and deploy the
 application on the device are simplified using a set of predefined
 [gotask](https://github.com/jingweno/gotask) tasks.
 
@@ -139,7 +139,7 @@ sudo apt-get install libgles2-mesa-dev libegl1-mesa-dev
 </pre>
 
 Then you should install the Go bindings for EGL and OpenGL ES 2. This
-as simple as:
+is as simple as:
 
 <pre>
 go get github.com/remogatto/egl
@@ -148,16 +148,16 @@ go get github.com/remogatto/opengles2
 
 ## GLFW3
 
-Install from source following the instruction
+Install from source following the instructions
 [here](http://www.glfw.org/docs/latest/compile.html). Please note that
 you have to configure GLFW in order to use EGL and OpenGL ES 2. For
-further informations see
+further information, see
 [here](http://www.glfw.org/docs/latest/compile.html#compile_options_egl)
 and
 [here](http://www.glfw.org/docs/latest/compile.html#compile_options_shared). Be
 sure to build GLFW as a shared object!
 
-After installing GLFW3, in order to install the Go binding see
+After installing GLFW3, in order to install the Go binding, see
 [here](https://github.com/go-gl/glfw3).
 
 ## gotask
@@ -220,7 +220,7 @@ order to remove the dependency from <tt>testing</tt> (which in turn
 depends on <tt>flag</tt>). So basically, testing a native Android
 application is now possible using
 [PrettyTest](https://github.com/remogatto/prettytest) but we have to
-renounce to the benefits of <tt>testing</tt> (at least for now). See
+renounce the benefits of <tt>testing</tt> (at least for now). See
 [test](test/) for further info about testing. To run the tests on your
 desktop window you need the <tt>xdotool</tt> (see the Prerequisites
 section)
