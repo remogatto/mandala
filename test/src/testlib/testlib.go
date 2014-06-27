@@ -9,12 +9,12 @@ import (
 	"runtime"
 	"time"
 
-	"git.tideland.biz/goas/loop"
 	"github.com/remogatto/imagetest"
 	"github.com/remogatto/mandala"
 	gl "github.com/remogatto/opengles2"
 	"github.com/remogatto/prettytest"
 	"github.com/remogatto/shaders"
+	"github.com/tideland/goas/v2/loop"
 )
 
 const (

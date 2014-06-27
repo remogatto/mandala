@@ -6,7 +6,7 @@ import (
 	"runtime"
 	"unsafe"
 
-	"git.tideland.biz/goas/loop"
+	"github.com/tideland/goas/v2/loop"
 )
 
 const (

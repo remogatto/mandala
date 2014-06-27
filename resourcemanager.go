@@ -3,7 +3,7 @@ package mandala
 import (
 	"unsafe"
 
-	"git.tideland.biz/goas/loop"
+	"github.com/tideland/goas/v2/loop"
 )
 
 type LoadResourceResponse struct {
