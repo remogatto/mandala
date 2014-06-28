@@ -45,7 +45,7 @@ Have a nice Mandala!
 * [OpenGL ES 2](http://www.khronos.org/opengles/2_X/)
 * [GLFW 3](http://www.glfw.org/)
 * [Gotask](https://github.com/jingweno/gotask)
-* [Loop](http://github.com/tideland/goas/v2/loop)
+* [Loop](https://github.com/tideland/goas/tree/master/v2/loop/)
 * [PrettyTest](https://github.com/remogatto/prettytest)
 
 # How does it work?
