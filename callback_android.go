@@ -15,8 +15,8 @@ import "C"
 import (
 	"fmt"
 	"unsafe"
-	"git.tideland.biz/goas/loop"
 	"github.com/remogatto/egl/platform/android"
+	"github.com/tideland/goas/v2/loop"
 )
 
 var (

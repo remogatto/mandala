@@ -8,7 +8,7 @@ import "C"
 
 import (
 	"runtime"
-	"git.tideland.biz/goas/loop"
+	"github.com/tideland/goas/v2/loop"
 )
 
 const LOOPER_ID_INPUT = 0
