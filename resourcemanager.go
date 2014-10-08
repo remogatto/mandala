@@ -6,6 +6,11 @@ import (
 	"github.com/tideland/goas/v2/loop"
 )
 
+var (
+	// The path in which the framework will search for resources.
+	ResourcePath string = "android/res"
+)
+
 type LoadResourceResponse struct {
 	// The buffer containing the resource.
 	Buffer []byte
