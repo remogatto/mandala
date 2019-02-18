@@ -5,7 +5,7 @@ type AudioPlayer struct {
 	ap *audioPlayer
 }
 
-// CreateAudioPlayer instantiates a player for the given filename.
+// NewAudioPlayer instantiates a player for the given filename.
 func NewAudioPlayer() (*AudioPlayer, error) {
 	ap, err := newAudioPlayer()
 	if err != nil {
@@ -21,13 +21,13 @@ func (ap *AudioPlayer) Play(buffer []byte, doneCh chan bool) {
 	ap.ap.play(buffer, doneCh)
 }
 
-// GetVolumeScale returns the [min,max] values for volume. If the
+// GetMaxVolumeLevel returns the [min,max] values for volume. If the
 // device doesn't support volume controls, it returns an error.
 func (ap *AudioPlayer) GetMaxVolumeLevel() (int, error) {
 	return ap.ap.getMaxVolumeLevel()
 }
 
-// SetVolume sets the volume for the player.
+// SetVolumeLevel sets the volume for the player.
 func (ap *AudioPlayer) SetVolumeLevel(value int) error {
 	return ap.ap.setVolumeLevel(value)
 }

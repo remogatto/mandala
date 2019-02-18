@@ -74,14 +74,14 @@ func Stacktrace() string {
 	return string(buf)
 }
 
-// ResourceManager() returns a send-only channel to which client-code
+// ResourceManager returns a send-only channel to which client-code
 // send request for resources. Please refer to resourcemanager.go for a
 // complete list of supported requests.
 func ResourceManager() chan<- interface{} {
 	return request
 }
 
-// Events() returns a receive-only channel from which client-code
+// Events returns a receive-only channel from which client-code
 // receive events. Events are sent in the form of anonymous
 // interfaces. Please refer to events.go for a complete list of the
 // supported events. For a worthwhile reading take a look a this
